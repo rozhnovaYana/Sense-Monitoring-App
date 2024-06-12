@@ -5,99 +5,18 @@
     "activities": "Залучені спеціалісти ІТ",
     "reasons": "",
     "isResolved": false,
-    "numberOfIncident": "",
+    "numberOfIncident": "35165",
     "numberOfMessage": "1",
-    "startDate": "10.06.24, 19:02",
-    "endDate": "12.06.24, 12:26"
+    "startDate": "12.06.24, 17:31"
   },
   {
     "level": "medium",
-    "theme": "Тема повідомлення",
-    "activities": "Залучені спеціалісти ІТ",
-    "reasons": "",
+    "theme": "Рівень чухання спинки впав до критичного",
+    "activities": "Почухай спинку",
+    "reasons": "Денис не чухає спинку",
     "isResolved": false,
-    "numberOfIncident": "",
+    "numberOfIncident": "NGD-25115455",
     "numberOfMessage": "1",
-    "startDate": "10.06.24, 19:02"
-  },
-  {
-    "level": "medium",
-    "theme": "Тема повідомлення",
-    "activities": "Залучені спеціалісти ІТ",
-    "reasons": "",
-    "isResolved": false,
-    "numberOfIncident": "",
-    "numberOfMessage": "1",
-    "startDate": "10.06.24, 19:02"
-  },
-  {
-    "level": "medium",
-    "theme": "Тема повідомлення",
-    "activities": "Залучені спеціалісти ІТ",
-    "reasons": "",
-    "isResolved": false,
-    "numberOfIncident": "",
-    "numberOfMessage": "1",
-    "startDate": "10.06.24, 19:02"
-  },
-  {
-    "level": "medium",
-    "theme": "Тема повідомлення",
-    "activities": "Залучені спеціалісти ІТ",
-    "reasons": "",
-    "isResolved": false,
-    "numberOfIncident": "",
-    "numberOfMessage": "1",
-    "startDate": "10.06.24, 19:02"
-  },
-  {
-    "level": "medium",
-    "theme": "Тема повідомлення",
-    "activities": "Залучені спеціалісти ІТ",
-    "reasons": "",
-    "isResolved": false,
-    "numberOfIncident": "",
-    "numberOfMessage": "1",
-    "startDate": "10.06.24, 19:02"
-  },
-  {
-    "level": "medium",
-    "theme": "Тема повідомлення",
-    "activities": "Залучені спеціалісти ІТ",
-    "reasons": "",
-    "isResolved": false,
-    "numberOfIncident": "",
-    "numberOfMessage": "1",
-    "startDate": "10.06.24, 19:02"
-  },
-  {
-    "level": "medium",
-    "theme": "Тема повідомлення",
-    "activities": "Залучені спеціалісти ІТ",
-    "reasons": "",
-    "isResolved": false,
-    "numberOfIncident": "",
-    "numberOfMessage": "1",
-    "startDate": "10.06.24, 19:02"
-  },
-  {
-    "level": "medium",
-    "theme": "Тема повідомлення",
-    "activities": "Залучені спеціалісти ІТ",
-    "reasons": "",
-    "isResolved": false,
-    "numberOfIncident": "",
-    "numberOfMessage": "1",
-    "startDate": "10.06.24, 19:02"
-  },
-  {
-    "level": "medium",
-    "theme": "Тема повідомлення",
-    "activities": "Залучені спеціалісти ІТ",
-    "reasons": "",
-    "isResolved": false,
-    "numberOfIncident": "",
-    "numberOfMessage": "1",
-    "startDate": "10.06.24, 19:02"
+    "startDate": "12.06.24, 17:10"
   }
 ]

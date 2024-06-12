@@ -28,7 +28,7 @@ export const FormDataInitialState: FormState = {
   activities: "Залучені спеціалісти ІТ",
   reasons: "",
   isResolved: false,
-  numberOfIncident: "",
+  numberOfIncident: "1",
   numberOfMessage: "1",
   startDate: convertZonnedToDate(now(getLocalTimeZone())),
 };

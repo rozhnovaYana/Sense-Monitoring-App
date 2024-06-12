@@ -1,5 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
-import { FormState } from "@/types/Form";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { FormState, FormStateDB } from "@/types/Form";
 
 import { useDateFormatter } from "@react-aria/i18n";
 import { Button } from "@nextui-org/react";
@@ -8,12 +14,14 @@ import { FaCopy, FaRegCopy, FaSave } from "react-icons/fa";
 import { levels } from "@/data/formdata";
 import { getTimeDifference } from "@/utils/dateHelpers";
 import { saveMessage } from "@/actions/messages";
+import SaveButton from "../save/SaveButton";
 
 type MessageProps = {
   formState: FormState;
+  setMessages: Dispatch<SetStateAction<FormStateDB[]>>;
 };
 
-const Message = ({ formState }: MessageProps) => {
+const Message = ({ formState, setMessages }: MessageProps) => {
   const {
     level,
     theme,
@@ -52,12 +60,14 @@ const Message = ({ formState }: MessageProps) => {
     }
   };
 
-  const onSave = () => {
-    saveMessage({
+  const onSave = async () => {
+    const newMessage = {
       ...formState,
       startDate: convertData(startDate),
       endDate: endDate && convertData(endDate),
-    });
+    };
+    const messages = await saveMessage(newMessage);
+    setMessages(messages);
   };
 
   return (
@@ -98,9 +108,7 @@ const Message = ({ formState }: MessageProps) => {
         >
           {isCopied ? <FaCopy color="#c8ebad" /> : <FaRegCopy />}
         </Button>
-        <Button onClick={onSave} variant="ghost" isIconOnly className="mt-4">
-          <FaSave />
-        </Button>
+        <SaveButton onSave={onSave} />
       </div>
     </div>
   );

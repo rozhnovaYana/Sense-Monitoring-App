@@ -79,7 +79,7 @@ const Form = ({
         <CustomInput
           type="number"
           defaultValue="1"
-          label="Номер повідомлення"
+          label="№ повідомлення"
           value={numberOfMessage}
           onValueChange={(t) => onItemUpdate("numberOfMessage", t)}
         />
@@ -87,12 +87,6 @@ const Form = ({
           label="Номер інциденту"
           value={numberOfIncident}
           onValueChange={(t) => onItemUpdate("numberOfIncident", t)}
-        />
-        <TimeInput
-          label="Час запиту на розсилку"
-          isRequired
-          hourCycle={24}
-          isDisabled={numberOfMessage !== "1" || level === "information"}
         />
       </div>
     </form>

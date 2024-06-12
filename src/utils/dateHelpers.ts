@@ -1,4 +1,4 @@
-import { fromDate, getLocalTimeZone } from "@internationalized/date";
+import { fromDate, getLocalTimeZone, } from "@internationalized/date";
 import { type DateValue } from "@nextui-org/react";
 
 export const getTimeDifference = (startDate: Date, endDate: Date) => {
@@ -21,6 +21,7 @@ export const getTimeDifference = (startDate: Date, endDate: Date) => {
     .filter(Boolean)
     .join(", ");
 };
+
 export const convertISOToZonned = (data: Date) => fromDate(data, "Europe/Kyiv");
 export const convertZonnedToDate = (data: DateValue): Date =>
   data.toDate(getLocalTimeZone());
