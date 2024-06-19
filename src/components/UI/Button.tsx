@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { FaSave } from "react-icons/fa";
 import { Button, ButtonProps } from "@nextui-org/react";

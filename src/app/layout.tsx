@@ -3,6 +3,7 @@ import "@/assets/styles/global.sass";
 import Provider from "@/app/Provider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Navigation from "@/components/nav/Navigation";
 
 export const metadata: Metadata = {
   title: "Sense App Monitoring",
@@ -17,7 +18,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="blue-dark text-foreground bg-background px-14">
-        <Provider>{children}</Provider>
+        <Provider>
+          <Navigation />
+          {children}
+        </Provider>
         <ToastContainer position="top-right" theme="dark" />
       </body>
     </html>

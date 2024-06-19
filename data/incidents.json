@@ -1,52 +1,8 @@
 [
   {
     "numberOfIncident": "1",
-    "time": "15:05:00",
-    "reporter": "ufj"
-  },
-  {
-    "numberOfIncident": "35165",
-    "time": "15:05:00",
-    "reporter": "ufj"
-  },
-  {
-    "numberOfIncident": "1",
     "time": "12:22:00",
-    "reporter": "1111"
-  },
-  {
-    "numberOfIncident": "1",
-    "time": "12:20:00",
-    "reporter": "fff"
-  },
-  {
-    "numberOfIncident": "1",
-    "time": "12:20:00",
-    "reporter": "sss"
-  },
-  {
-    "numberOfIncident": "1",
-    "time": "12:20:00",
-    "reporter": "Zyf"
-  },
-  {
-    "numberOfIncident": "1",
-    "time": "12:22:00",
-    "reporter": "111"
-  },
-  {
-    "numberOfIncident": "1",
-    "time": "12:22:00",
-    "reporter": "111"
-  },
-  {
-    "numberOfIncident": "1",
-    "time": "12:22:00",
-    "reporter": "111"
-  },
-  {
-    "numberOfIncident": "1",
-    "time": "12:22:00",
-    "reporter": "111"
+    "reporter": "Галя жобкозуй",
+    "user": "danatskiy"
   }
 ]

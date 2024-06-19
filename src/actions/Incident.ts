@@ -3,6 +3,7 @@
 import path from "path";
 import fs from "fs";
 import matter from "gray-matter";
+import { auth } from "@/auth";
 
 const limit = 10;
 
@@ -23,6 +24,8 @@ export const saveIncident = async (
   prevState: FormState,
   formdata: FormData
 ): Promise<FormState> => {
+  const session = await auth();
+  console.log(session);
   try {
     const rawFile = fs.readFileSync(filePath, "utf-8");
     const { content } = matter(rawFile);
@@ -30,6 +33,13 @@ export const saveIncident = async (
     fileData?.length >= limit && fileData.pop();
     const reporter = formdata.get("reporter");
     const time = formdata.get("time");
+    const user = session?.user?.name;
+    if (!user) {
+      return {
+        success: false,
+        message: "Лише залогінені користувачі можуть виконувати цю дію.",
+      };
+    }
     if (!reporter || !time || !numberOfIncident) {
       return {
         reporter: !reporter ? "Введіть репортера" : undefined,
@@ -45,6 +55,7 @@ export const saveIncident = async (
         numberOfIncident,
         time,
         reporter,
+        user,
       },
       ...fileData,
     ];
