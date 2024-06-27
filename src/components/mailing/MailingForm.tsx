@@ -1,38 +1,50 @@
 import React, { useEffect } from "react";
-import { Input, TimeInput } from "@nextui-org/react";
-import ButtonUI from "@/components/UI/Button";
-import { saveIncident } from "@/actions/Incident";
 import { useFormState } from "react-dom";
 import { toast } from "react-toastify";
+import { Input, TimeInput } from "@nextui-org/react";
 
-type MailingFormProps = { numberOfIncident: string };
+import ButtonUI from "@/components/UI/Button";
+import { saveIncident } from "@/actions/Incident";
 
-const MailingForm = ({ numberOfIncident }: MailingFormProps) => {
+type MailingFormProps = { numberOfIncident: string; startDate: Date };
+
+const MailingForm = ({ numberOfIncident, startDate }: MailingFormProps) => {
   const [state, formAction] = useFormState(
-    saveIncident.bind(null, numberOfIncident),
+    saveIncident.bind(null, numberOfIncident, startDate),
     { success: false }
   );
+
   useEffect(() => {
     if (state.success && state.message) {
-      console.log("text");
       toast.success(state.message);
     }
   }, [state]);
+
   return (
     <form className="mt-4" action={formAction}>
       <div>Контроль часу розсилки</div>
       <div className="text-gray-400">
         Номер інциденту:
-        <span className="text-success-700"> {numberOfIncident}</span>
+        <span className="text-success-500"> {numberOfIncident}</span>
       </div>
+
       <div className="flex gap-4 mt-4 items-center">
         <TimeInput
-          name="time"
-          label="Чаc"
+          name="timeRequest"
+          label="Чаc запиту"
           isRequired
           hourCycle={24}
-          className="w-max"
-          isInvalid={!!state.time}
+          className="w-60"
+          isInvalid={!!state.timeRequest}
+          variant="bordered"
+        />
+        <TimeInput
+          name="timeSend"
+          label="Чаc розсилки"
+          isRequired
+          hourCycle={24}
+          className="w-60"
+          isInvalid={!!state.timeSend}
           variant="bordered"
         />
         <Input

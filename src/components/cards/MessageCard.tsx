@@ -1,3 +1,4 @@
+import { levels } from "@/data/formdata";
 import { FormStateDB } from "@/types/Form";
 import { Card, CardBody } from "@nextui-org/react";
 import React from "react";
@@ -17,33 +18,32 @@ const MessageCard = ({ message, onPress }: MessageCardProps) => {
     numberOfMessage,
     numberOfIncident,
   } = message;
+  const levelColor = levels.find((l) => l.text === level)?.color;
+
   return (
     <Card onPress={() => onPress(message)} isPressable>
       <CardBody>
         <div>
           Рівень впливу:
-          <span className={`capitalize`}> {level}</span>{" "}
+          <span className={`text-${levelColor} capitalize`}> {level}</span>{" "}
         </div>
         <div>Шановні Колеги!</div>
         <div>{theme}</div>
         {reasons && <div>Причини: {reasons}</div>}
         {activities && <div>Вжиті заходи: {activities}</div>}
         <div>
-          Час початку: <span className="text-success-100">{startDate}</span>
+          Час початку: <span className="text-success-700"> {startDate}</span>
         </div>
 
         <div>
           {isResolved ? "Час завершення:" : "Очікуванний час завершення:"}{" "}
-          <span className="text-success-100">
+          <span className="text-success-700">
             {endDate ? endDate : "уточнюється"}
           </span>
         </div>
-        {/* {isResolved && timeDifference && (
-          <div>Тривалість: {timeDifference}</div>
-        )} */}
 
         <div>Повідомлення №: {numberOfMessage}</div>
-        <div>{numberOfIncident}</div>
+        <div className="text-success-700">{numberOfIncident}</div>
       </CardBody>
     </Card>
   );

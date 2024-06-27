@@ -25,3 +25,4 @@ export const getTimeDifference = (startDate: Date, endDate: Date) => {
 export const convertISOToZonned = (data: Date) => fromDate(data, "Europe/Kyiv");
 export const convertZonnedToDate = (data: DateValue): Date =>
   data.toDate(getLocalTimeZone());
+

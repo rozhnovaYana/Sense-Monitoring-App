@@ -35,7 +35,7 @@ const Form = ({
     }));
   };
   return (
-    <form className="grid gap-5">
+    <form className="grid gap-5" suppressHydrationWarning>
       <LevelSelector value={level} onItemUpdate={onItemUpdate} />
       <Textarea
         label="Тема"
@@ -83,6 +83,7 @@ const Form = ({
           value={numberOfMessage}
           onValueChange={(t) => onItemUpdate("numberOfMessage", t)}
         />
+        {/* add mask? */}
         <CustomInput
           label="Номер інциденту"
           value={numberOfIncident}

@@ -10,47 +10,46 @@ LOGIN=$1
 PASS=$2
 
 #перевірка наявності логіну в списку
+
 if [[ "$LOGIN" = "danatskiy" ]]; then
         if [[ "$PASS" = "1234" ]]; then
                 echo "login accepted"
         else
                 echo "login is denied"
         fi
-        if [[ "$LOGIN" = "ishkorup" ]]; then
-                if [[ "$PASS" = "123456" ]]; then
-                        echo "login accepted"
-                else
-                        echo "login is denied"
-                fi
+fi
+if [[ "$LOGIN" = "ishkorup" ]]; then
+        if [[ "$PASS" = "123456" ]]; then
+                echo "login accepted"
+        else
+                echo "login is denied"
         fi
-        if [[ "$LOGIN" = "ezozulya" ]]; then
-                if [[ "$PASS" = "123456" ]]; then
-                        echo "login accepted"
-                else
-                        echo "login is denied"
-                fi
+fi
+if [[ "$LOGIN" = "ezozulya" ]]; then
+        if [[ "$PASS" = "123456" ]]; then
+                echo "login accepted"
+        else
+                echo "login is denied"
         fi
-        if [[ "$LOGIN" = "dtrushina" ]]; then
-                if [[ "$PASS" = "123456" ]]; then
-                        echo "login accepted"
-                else
-                        echo "login is denied"
-                fi
+fi
+if [[ "$LOGIN" = "dtrushina" ]]; then
+        if [[ "$PASS" = "123456" ]]; then
+                echo "login accepted"
+        else
+                echo "login is denied"
         fi
-        if [[ "$LOGIN" = "advadtsatnaya" ]]; then
-                if [[ "$PASS" = "123456" ]]; then
-                        echo "login accepted"
-                else
-                        echo "login is denied"
-                fi
+fi
+if [[ "$LOGIN" = "advadtsatnaya" ]]; then
+        if [[ "$PASS" = "123456" ]]; then
+                echo "login accepted"
+        else
+                echo "login is denied"
         fi
-        if [[ "$LOGIN" = "alesyuk" ]]; then
-                if [[ "$PASS" = "123456" ]]; then
-                        echo "login accepted"
-                else
-                        echo "login is denied"
-                fi
+fi
+if [[ "$LOGIN" = "alesyuk" ]]; then
+        if [[ "$PASS" = "123456" ]]; then
+                echo "login accepted"
+        else
+                echo "login is denied"
         fi
-else
-        echo "login is denied"
 fi

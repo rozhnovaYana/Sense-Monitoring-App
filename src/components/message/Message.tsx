@@ -7,7 +7,6 @@ import React, {
 } from "react";
 import { FormState, FormStateDB } from "@/types/Form";
 
-import { useDateFormatter } from "@react-aria/i18n";
 import { Button } from "@nextui-org/react";
 import { FaCopy, FaRegCopy, FaSave } from "react-icons/fa";
 
@@ -15,6 +14,7 @@ import { levels } from "@/data/formdata";
 import { getTimeDifference } from "@/utils/dateHelpers";
 import { saveMessage } from "@/actions/messages";
 import SaveButton from "../save/SaveButton";
+import { useDateFormatter } from "@/hooks/useDateFormatter";
 
 type MessageProps = {
   formState: FormState;
@@ -38,11 +38,7 @@ const Message = ({ formState, setMessages }: MessageProps) => {
 
   const levelColor = levels.find((l) => l.text === level)?.color;
 
-  let formatter = useDateFormatter({
-    dateStyle: "short",
-    timeStyle: "short",
-    timeZone: "Europe/Kyiv",
-  });
+  let formatter = useDateFormatter();
   const convertData = (data: Date) => formatter.format(data);
 
   const timeDifference = endDate && getTimeDifference(startDate, endDate);
@@ -82,13 +78,13 @@ const Message = ({ formState, setMessages }: MessageProps) => {
         {reasons && <div>Причини: {reasons}</div>}
         {activities && <div>Вжиті заходи: {activities}</div>}
         <div>
-          Час початку:{" "}
-          <span className="text-success-100">{convertData(startDate)}</span>
+          Час початку:
+          <span className="text-success-700"> {convertData(startDate)}</span>
         </div>
 
         <div>
           {isResolved ? "Час завершення:" : "Очікуванний час завершення:"}{" "}
-          <span className="text-success-100">
+          <span className="text-success-700">
             {endDate ? convertData(endDate) : "уточнюється"}
           </span>
         </div>
@@ -97,7 +93,7 @@ const Message = ({ formState, setMessages }: MessageProps) => {
         )}
 
         <div>Повідомлення №: {numberOfMessage}</div>
-        <div>{numberOfIncident}</div>
+        <div className="text-success-700">{numberOfIncident}</div>
       </div>
       <div className="flex gap-3">
         <Button

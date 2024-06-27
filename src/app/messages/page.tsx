@@ -13,6 +13,7 @@ import { getMessages } from "@/actions/messages";
 import SearchMessage from "@/components/search/Search";
 import { Divider } from "@nextui-org/react";
 import MailingForm from "@/components/mailing/MailingForm";
+import CardSkeleton from "@/components/cards/CardSkeleton";
 
 export default function Messages() {
   const [formState, updateFormState] =
@@ -20,11 +21,18 @@ export default function Messages() {
 
   const [messages, setMessages] = useState<FormStateDB[]>([]);
   const [query, setQuery] = useState("");
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
-      const data = await getMessages();
-      setMessages(data);
+      try {
+        setLoading(true);
+        const data = await getMessages();
+        setMessages(data);
+      } catch (err) {
+      } finally {
+        setLoading(false);
+      }
     })();
   }, []);
 
@@ -35,17 +43,27 @@ export default function Messages() {
         <Divider className="mt-10" />
         {formState.numberOfMessage === "1" &&
           formState.level != "information" && (
-            <MailingForm numberOfIncident={formState.numberOfIncident} />
+            <MailingForm
+              numberOfIncident={formState.numberOfIncident}
+              startDate={formState.startDate}
+            />
           )}
       </div>
       <div>
         <Message formState={formState} setMessages={setMessages} />
         <SearchMessage onValueChange={setQuery} value={query} />
-        <CardsGrid
-          query={query}
-          messages={messages}
-          updateFormState={updateFormState}
-        />
+        {isLoading ? (
+          <div className="grid gap-5 grid-cols-2 mt-10 max-h-30per">
+            <CardSkeleton />
+            <CardSkeleton />
+          </div>
+        ) : (
+          <CardsGrid
+            query={query}
+            messages={messages}
+            updateFormState={updateFormState}
+          />
+        )}
       </div>
     </div>
   );

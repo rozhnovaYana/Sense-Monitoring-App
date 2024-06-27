@@ -40,8 +40,14 @@ const config: Config = {
               DEFAULT: "#a3e4fe",
               foreground: "#ffffff",
             },
-            danger: '#ebadad',
-            success: '#c8ebad',
+            danger: {
+              900: "#5227278b",
+              DEFAULT: "#ebadad",
+            },
+            success: {
+              900: "#435b5187",
+              DEFAULT: "#c8ebad",
+            },
             focus: "#82c6f6",
           },
           layout: {
