@@ -10,7 +10,9 @@ import { Incident } from "@/types/Incident";
 
 const limit = 10;
 
-const filePath = path.join(process.cwd(), "src", "db", "incidents.json");
+const rootDir = "./data";
+const filePath = path.join(rootDir, "incidents.json");
+
 export type FormState = {
   error?: string;
   message?: string;

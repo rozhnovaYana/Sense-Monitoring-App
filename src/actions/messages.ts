@@ -7,7 +7,7 @@ import matter from "gray-matter";
 
 const limit = 10;
 
-const rootDir = "../db";
+const rootDir = "./data";
 const filePath = path.join(rootDir, "messages.json");
 
 export const getMessages = () => {
