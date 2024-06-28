@@ -13,7 +13,7 @@ import { FaCopy, FaRegCopy, FaSave } from "react-icons/fa";
 import { levels } from "@/data/formdata";
 import { getTimeDifference } from "@/utils/dateHelpers";
 import { saveMessage } from "@/actions/messages";
-import SaveButton from "../save/SaveButton";
+import SaveButton from "./SaveMessage";
 import { useDateFormatter } from "@/hooks/useDateFormatter";
 
 type MessageProps = {

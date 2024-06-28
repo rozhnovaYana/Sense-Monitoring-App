@@ -9,18 +9,18 @@ import {
   useDisclosure,
   ButtonProps,
 } from "@nextui-org/react";
-import ButtonUI from "../UI/Button";
+import SaveButton from "@/components/UI/SaveButton";
 
 interface SaveButtonProps extends ButtonProps {
   onSave: () => void;
 }
 
-const SaveButton = ({ onSave, ...props }: SaveButtonProps) => {
+const SaveMessage = ({ onSave, ...props }: SaveButtonProps) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
     <>
-      <ButtonUI {...props} onClick={onOpen} />
+      <SaveButton {...props} onClick={onOpen} />
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
@@ -50,4 +50,4 @@ const SaveButton = ({ onSave, ...props }: SaveButtonProps) => {
   );
 };
 
-export default SaveButton;
+export default SaveMessage;

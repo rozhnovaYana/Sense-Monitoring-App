@@ -3,12 +3,16 @@
 import React from "react";
 import { Button, Link, NavbarContent, NavbarItem } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
+
 import { signOutAction } from "@/actions/sign-out";
 
-const NavigationOptions = () => {
+interface NavigationOptionsProps {
+  user: string;
+}
+
+const NavigationOptions = ({ user }: NavigationOptionsProps) => {
   const pathname = usePathname();
   const links = [
-    { title: "Home", path: "/" },
     { title: "Повідомлення", path: "/messages" },
     { title: "Аналітика", path: "/analytic" },
   ];
@@ -24,6 +28,7 @@ const NavigationOptions = () => {
         ))}
       </NavbarContent>
       <NavbarContent justify="end">
+        <NavbarItem className="text-gray-500">{user}</NavbarItem>
         <NavbarItem>
           <Button variant="bordered" onClick={() => signOutAction()}>
             Вийти

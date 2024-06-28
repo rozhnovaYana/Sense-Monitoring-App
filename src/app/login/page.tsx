@@ -2,11 +2,12 @@
 
 import React, { useState } from "react";
 import { useFormState } from "react-dom";
+import { FaEye } from "react-icons/fa";
 
-import { Button, Input } from "@nextui-org/react";
+import { Input } from "@nextui-org/react";
 
 import { signInAction } from "@/actions/sign-in";
-import { FaEye } from "react-icons/fa";
+import ButtonUI from "@/components/UI/Button";
 
 const LoginPage = () => {
   const [state, formAction] = useFormState(signInAction, {
@@ -52,7 +53,7 @@ const LoginPage = () => {
           </button>
         }
       />
-      <Button type="submit">Ввійти</Button>
+      <ButtonUI type="submit">Ввійти</ButtonUI>
       {state?.errors.form && (
         <div className="text-danger-100 mt-3">{state?.errors.form}</div>
       )}

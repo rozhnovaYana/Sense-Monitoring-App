@@ -1,21 +1,15 @@
 "use client";
-import React from "react";
-import { FaSave } from "react-icons/fa";
-import { Button, ButtonProps } from "@nextui-org/react";
-import { useFormStatus } from "react-dom";
 
-const ButtonUI = (props: ButtonProps) => {
+import React from "react";
+import { useFormStatus } from "react-dom";
+import { Button, ButtonProps } from "@nextui-org/react";
+
+const ButtonUI = ({ children, ...props }: ButtonProps) => {
   const { pending } = useFormStatus();
 
   return (
-    <Button
-      variant="ghost"
-      isIconOnly
-      className="mt-4"
-      isLoading={pending}
-      {...props}
-    >
-      <FaSave />
+    <Button isLoading={pending} {...props}>
+      {children}
     </Button>
   );
 };

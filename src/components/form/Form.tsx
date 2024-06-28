@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction } from "react";
-import { Checkbox, DateValue, Textarea, TimeInput } from "@nextui-org/react";
+import { Checkbox, DateValue, Textarea } from "@nextui-org/react";
 
 import LevelSelector from "@/components/form/LevelSelector";
 import DatePickerCustom from "@/components/UI/DatePicker";
@@ -44,6 +44,7 @@ const Form = ({
         onValueChange={(t) => onItemUpdate("theme", t)}
       />
       <CustomInput
+        isClearable
         label="Причини"
         value={reasons}
         onValueChange={(t) => onItemUpdate("reasons", t)}
@@ -75,7 +76,7 @@ const Form = ({
           }
         />
       </div>
-      <div className="grid gap-4 grid-cols-3">
+      <div className="grid grid-cols-2 gap-2">
         <CustomInput
           type="number"
           defaultValue="1"
@@ -83,7 +84,7 @@ const Form = ({
           value={numberOfMessage}
           onValueChange={(t) => onItemUpdate("numberOfMessage", t)}
         />
-        {/* add mask? */}
+
         <CustomInput
           label="Номер інциденту"
           value={numberOfIncident}

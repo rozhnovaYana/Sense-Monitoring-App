@@ -6,11 +6,13 @@ import { auth } from "@/auth";
 
 const Navigation = async () => {
   const session = await auth();
-  if (!session) return null;
+
+  if (!session?.user?.name) return null;
 
   return (
     <Navbar
       classNames={{
+        wrapper: "p-0",
         item: [
           "flex",
           "relative",
@@ -30,7 +32,7 @@ const Navigation = async () => {
       shouldHideOnScroll
       maxWidth="full"
     >
-      <NavigationOptions />
+      <NavigationOptions user={session.user.name} />
     </Navbar>
   );
 };

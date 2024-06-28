@@ -1,19 +1,21 @@
 import type { Metadata } from "next";
-import "@/assets/styles/global.sass";
-import Provider from "@/app/Provider";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
+import Provider from "@/app/Provider";
 import Navigation from "@/components/nav/Navigation";
+import "@/assets/styles/global.sass";
+import { ReactNode } from "react";
 
 export const metadata: Metadata = {
-  title: "Sense App Monitoring",
-  description: "Generate messages",
+  title: "Sense Monitoring App",
+  description: "App to generate Message for Monitoring Department.",
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html lang="en">

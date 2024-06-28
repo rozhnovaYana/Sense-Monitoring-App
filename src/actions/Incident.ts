@@ -86,6 +86,7 @@ export const saveIncident = async (
     const incidentInd = fileData.findIndex(
       (el: Incident) => el.numberOfIncident === numberOfIncident
     );
+    const date = moment(startDate).format("YYYY MM DD");
 
     const incident = {
       numberOfIncident,
@@ -93,7 +94,7 @@ export const saveIncident = async (
       timeSend,
       reporter,
       user,
-      startDate,
+      startDate: date,
       isSLA,
     };
 

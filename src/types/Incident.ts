@@ -4,6 +4,6 @@ export type incidentKeys =
   | "reporter"
   | "numberOfIncident"
   | "user"
-  | "data"
+  | "startDate"
   | "isSLA";
 export type Incident = Record<incidentKeys, "string">;
