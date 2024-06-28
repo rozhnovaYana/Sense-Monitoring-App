@@ -12,7 +12,7 @@ const limit = 10;
 
 const rootDir = "./data";
 const filePath = path.join(rootDir, "incidents.json");
-
+console.log(filePath)
 export type FormState = {
   error?: string;
   message?: string;
