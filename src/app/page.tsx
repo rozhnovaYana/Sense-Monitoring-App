@@ -1,7 +1,9 @@
 import Image from "next/image";
-import img from "@/assets/images/logo.jpg";
+import img from "public/images/logo.jpg";
 import { Inter } from "next/font/google";
+
 const inter = Inter({ subsets: ["latin"] });
+
 export default function Home() {
   return (
     <div className="flex mt-20 h-full flex-col items-center justify-center w-full">

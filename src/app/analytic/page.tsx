@@ -137,7 +137,7 @@ export default function AnalyticsPage() {
             SLA:{" "}
             <span
               className={
-                slaCountPerc > 93 ? "text-success-300" : "text-danger-400"
+                slaCountPerc > 93 ? "text-success-300" : "text-danger"
               }
             >
               {slaCountPerc}%
