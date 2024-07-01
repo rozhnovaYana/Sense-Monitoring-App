@@ -10,7 +10,7 @@ import { Incident } from "@/types/Incident";
 
 const limit = 10;
 
-const rootDir = "./data";
+const rootDir = "src/db/";
 const filePath = path.join(rootDir, "incidents.json");
 
 export type FormState = {
