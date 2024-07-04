@@ -12,6 +12,7 @@ const filePath = path.join(rootDir, "messages.json");
 
 export const getMessages = async () => {
   const messages = await db.message.findMany();
+  console.log(messages)
   return messages;
 };
 
