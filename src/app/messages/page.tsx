@@ -32,6 +32,7 @@ export default function Messages() {
         const data = await getMessages();
         setMessages(data);
       } catch (err) {
+        console.log(err)
         setFetchState((state) => ({ ...state, isError: true }));
       } finally {
         setFetchState((state) => ({ ...state, isLoading: false }));
@@ -43,7 +44,6 @@ export default function Messages() {
     updateFormState(FormDataInitialState);
     mailingFormref?.current?.reset();
   };
-  console.log(isError)
 
   return (
     <div className="grid grid-cols-2 mt-10 gap-10">
