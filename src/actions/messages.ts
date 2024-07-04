@@ -1,18 +1,10 @@
 "use server";
 
-import path from "path";
-import fs from "fs";
 import { FormStateDB } from "@/types/Form";
 import { db } from "@/db";
 
-const limit = 10;
-
-const rootDir = "src/db/";
-const filePath = path.join(rootDir, "messages.json");
-
 export const getMessages = async () => {
   const messages = await db.message.findMany();
-  console.log(messages)
   return messages;
 };
 
