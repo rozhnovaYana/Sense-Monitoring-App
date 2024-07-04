@@ -1,14 +1,14 @@
 import React from "react";
 import { RadioGroup, Radio, cn } from "@nextui-org/react";
 
-import { FormState, type LevelStatuses } from "@/types/Form";
+import { FormState } from "@/types/Form";
 import { levels } from "@/data/formdata";
 
 const LevelSelector = ({
   value,
   onItemUpdate,
 }: {
-  value: LevelStatuses;
+  value: string;
   onItemUpdate: (field: keyof FormState, value: string) => void;
 }) => {
   return (

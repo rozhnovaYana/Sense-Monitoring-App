@@ -1,12 +1,10 @@
-export type LevelStatuses = "high" | "medium" | "low" | "information";
-
 export type Level = {
-  text: LevelStatuses;
+  text: string;
   color: string;
 };
 
 export interface FormState {
-  level: LevelStatuses;
+  level: string;
   theme: string;
   activities: string;
   reasons: string;
@@ -19,5 +17,5 @@ export interface FormState {
 }
 export interface FormStateDB extends Omit<FormState, "startDate" | "endDate"> {
   startDate: string;
-  endDate?: string;
+  endDate?: string | null;
 }
