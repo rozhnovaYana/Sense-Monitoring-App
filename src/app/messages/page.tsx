@@ -43,6 +43,7 @@ export default function Messages() {
     updateFormState(FormDataInitialState);
     mailingFormref?.current?.reset();
   };
+  console.log(isError)
 
   return (
     <div className="grid grid-cols-2 mt-10 gap-10">
