@@ -1,39 +1,43 @@
-import NextAuth, { DefaultSession } from "next-auth";
+import ldap from "ldapjs";
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-import { execSync } from "child_process";
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  pages: {
-    signIn: "/login",
-  },
   providers: [
     CredentialsProvider({
-      name: "Credentials",
+      name: "LDAP",
       credentials: {
-        name: { label: "Username" },
+        name: { label: "DN", type: "text", placeholder: "" },
         password: { label: "Password", type: "password" },
       },
-      authorize: async (credentials) => {
-        if (credentials.name === "test") {
-          return { name: credentials.name as string };
-        }
-        const stdout = execSync(
-          `bash sense_auth.sh ${credentials.name} ${credentials.password}`
-        )?.toString();
-        console.log(stdout);
-        if (stdout.trim() !== "login accepted") {
-          return {};
-        }
-        return { name: credentials.name as string };
+      async authorize(credentials: { name: string; password: string }) {
+        const client = ldap.createClient({
+          url: process.env.LDAP_URI || "",
+        });
+
+        return new Promise((resolve, reject) => {
+          client.bind(credentials.name, credentials.password, (error) => {
+            if (error) {
+              console.error("Failed");
+              reject();
+            } else {
+              console.log("Logged in");
+              resolve({
+                name: credentials.name,
+              });
+            }
+          });
+        });
       },
     }),
   ],
   callbacks: {
-    async signIn({ user, ...props }) {
-      if (!user?.name) {
-        return false;
+    async jwt({ token, user }) {
+      const isSignIn = user ? true : false;
+      if (isSignIn) {
+        token.name = user.name;
       }
-      return true;
+      return token;
     },
   },
 });
