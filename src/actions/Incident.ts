@@ -1,17 +1,8 @@
 "use server";
 
-import path from "path";
-import fs from "fs";
-import matter from "gray-matter";
-
 import { auth } from "@/auth";
 import moment from "moment";
-import { Incident } from "@/types/Incident";
-
-const limit = 10;
-
-const rootDir = "src/db/";
-const filePath = path.join(rootDir, "incidents.json");
+import { db } from "@/db";
 
 export type FormState = {
   error?: string;
@@ -24,10 +15,9 @@ export type FormState = {
   success: boolean;
 };
 
-export const getIncidents = () => {
-  const rawFile = fs.readFileSync(filePath, "utf-8");
-  const { content } = matter(rawFile);
-  return content ? JSON.parse(content) : [];
+export const getIncidents = async () => {
+  const incidents = await db.incident.findMany();
+  return incidents;
 };
 
 export const saveIncident = async (
@@ -38,14 +28,10 @@ export const saveIncident = async (
 ): Promise<FormState> => {
   const session = await auth();
   try {
-    // read file
-    const rawFile = fs.readFileSync(filePath, "utf-8");
-    const { content } = matter(rawFile);
-    const fileData = content ? JSON.parse(content) : [];
     // get data from FormData
-    const reporter = formdata.get("reporter");
-    const timeRequest = formdata.get("timeRequest");
-    const timeSend = formdata.get("timeSend");
+    const reporter = formdata.get("reporter") as string;
+    const timeRequest = formdata.get("timeRequest") as string;
+    const timeSend = formdata.get("timeSend") as string;
     const user = session?.user?.name;
     // check if user exists and formDate is filled
     if (!user) {
@@ -83,9 +69,6 @@ export const saveIncident = async (
       );
     const isSLA = +diffMinutes <= 11;
 
-    const incidentInd = fileData.findIndex(
-      (el: Incident) => el.numberOfIncident === numberOfIncident
-    );
     const date = moment(startDate).format("YYYY MM DD");
 
     const incident = {
@@ -98,18 +81,14 @@ export const saveIncident = async (
       isSLA,
     };
 
-    if (incidentInd !== -1) {
-      fileData[incidentInd] = incident;
-    } else {
-      fileData.unshift(incident);
-    }
-    console.log(fileData);
+    await db.incident.upsert({
+      where: {
+        numberOfIncident: numberOfIncident,
+      },
+      update: { ...incident },
+      create: { ...incident },
+    });
 
-    fileData?.length >= limit && fileData.pop();
-
-    // add trim
-
-    fs.writeFileSync(filePath, JSON.stringify(fileData, null, 2));
     return {
       message: `Інцидент ${numberOfIncident} був успішно збережений.`,
       success: true,

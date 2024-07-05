@@ -10,6 +10,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id Int   @id @default(autoincrement())
+  name String @unique
+}
+
 model Message {
   id    Int   @id @default(autoincrement())
   level String
@@ -22,3 +27,15 @@ model Message {
   startDate String
   endDate String?
 }
+
+model Incident {
+  id    Int   @id @default(autoincrement())
+  numberOfIncident  String @unique
+  timeRequest String
+  timeSend String
+  reporter String
+  user String
+  startDate String 
+  isSLA Boolean
+}
+
