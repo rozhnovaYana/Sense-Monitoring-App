@@ -16,7 +16,11 @@ export type FormState = {
 };
 
 export const getIncidents = async () => {
-  const incidents = await db.incident.findMany();
+  const incidents = await db.incident.findMany({
+    orderBy: {
+      id: "desc",
+    },
+  });
   return incidents;
 };
 

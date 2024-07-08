@@ -14,13 +14,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: { label: "Password", type: "password" },
       },
       authorize: async (credentials) => {
-        if (credentials.name === "test") {
-          return { name: credentials.name as string };
-        }
         const stdout = execSync(
           `bash sense_auth.sh ${credentials.name} ${credentials.password}`
         )?.toString();
-        console.log(stdout);
         if (stdout.trim() !== "login accepted") {
           return {};
         }

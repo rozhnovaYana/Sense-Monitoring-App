@@ -16,5 +16,9 @@ export const saveMessage = async (
     create: { ...data },
     update: { ...data },
   });
-  return await db.message.findMany();
+  return await db.message.findMany({
+    orderBy: {
+      id: "desc",
+    },
+  });
 };
