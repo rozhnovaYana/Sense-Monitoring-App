@@ -2,11 +2,7 @@
 
 import { FormStateDB } from "@/types/Form";
 import { db } from "@/db";
-
-export const getMessages = async () => {
-  const messages = await db.message.findMany();
-  return messages;
-};
+import { revalidatePath } from "next/cache";
 
 export const saveMessage = async (
   data: FormStateDB
@@ -16,9 +12,11 @@ export const saveMessage = async (
     create: { ...data },
     update: { ...data },
   });
-  return await db.message.findMany({
+  const messages = await db.message.findMany({
     orderBy: {
       id: "desc",
     },
   });
+  revalidatePath("/messages");
+  return messages;
 };

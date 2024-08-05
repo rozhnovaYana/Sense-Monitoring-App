@@ -18,10 +18,9 @@ import { useDateFormatter } from "@/hooks/useDateFormatter";
 
 type MessageProps = {
   formState: FormState;
-  setMessages: Dispatch<SetStateAction<FormStateDB[]>>;
 };
 
-const Message = ({ formState, setMessages }: MessageProps) => {
+const Message = ({ formState }: MessageProps) => {
   const {
     level,
     theme,
@@ -63,7 +62,7 @@ const Message = ({ formState, setMessages }: MessageProps) => {
       endDate: endDate && convertData(endDate),
     };
     const messages = await saveMessage(newMessage);
-    setMessages(messages);
+    // setMessages(messages);
   };
 
   return (
