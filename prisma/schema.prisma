@@ -2,12 +2,19 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
-
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  Incident       Incident[]
+  Post       Post[]
+  Comment  Comment[]
 }
 
 model Message {
@@ -29,7 +36,8 @@ model Incident {
   timeRequest String
   timeSend String
   reporter String
-  user String
+  userId  String
+  user  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   startDate String 
   isSLA Boolean
 }
@@ -37,11 +45,10 @@ model Incident {
 model Post {
   id      String @id @default(cuid())
   content String
-  user  String
-
+  userId  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
+  user  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   comments Comment[]
 }
 
@@ -49,11 +56,12 @@ model Comment {
   id       String  @id @default(cuid())
   content  String
   postId   String
-  user   String
+  userId  String
   parentId String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  user  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   parent   Comment?  @relation("Comments", fields: [parentId], references: [id], onDelete: Cascade)
   post     Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
