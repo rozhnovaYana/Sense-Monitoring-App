@@ -3,6 +3,7 @@
 import { auth } from "@/auth";
 import moment from "moment";
 import { db } from "@/db";
+import { Incident } from "@prisma/client";
 
 export type FormState = {
   error?: string;
@@ -15,7 +16,7 @@ export type FormState = {
   success: boolean;
 };
 
-export const getIncidents = async () => {
+export const getIncidents = async (): Promise<Incident[]> => {
   const incidents = await db.incident.findMany({
     orderBy: {
       id: "desc",

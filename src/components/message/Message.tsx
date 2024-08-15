@@ -1,11 +1,5 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import { FormState, FormStateDB } from "@/types/Form";
+import React, { useEffect, useRef, useState } from "react";
+import { FormState } from "@/types/Form";
 
 import { Button } from "@nextui-org/react";
 import { FaCopy, FaRegCopy, FaSave } from "react-icons/fa";
@@ -13,8 +7,10 @@ import { FaCopy, FaRegCopy, FaSave } from "react-icons/fa";
 import { levels } from "@/data/formdata";
 import { getTimeDifference } from "@/utils/dateHelpers";
 import { saveMessage } from "@/actions/messages";
-import SaveButton from "./SaveMessage";
+
 import { useDateFormatter } from "@/hooks/useDateFormatter";
+import ConfirmModal from "../UI/ConfirmModal";
+import SaveButton from "@/components/UI/SaveButton";
 
 type MessageProps = {
   formState: FormState;
@@ -103,7 +99,14 @@ const Message = ({ formState }: MessageProps) => {
         >
           {isCopied ? <FaCopy color="#c8ebad" /> : <FaRegCopy />}
         </Button>
-        <SaveButton onSave={onSave} />
+        <ConfirmModal
+          triggerIcon={<FaSave />}
+          className="mt-4 items-center"
+          headerText="Зберегти повідомлення?"
+          onSave={onSave}
+          type="submit"
+          variant="ghost"
+        />
       </div>
     </div>
   );

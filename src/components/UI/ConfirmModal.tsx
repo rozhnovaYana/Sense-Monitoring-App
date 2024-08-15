@@ -1,5 +1,4 @@
-import React from "react";
-import { FaSave } from "react-icons/fa";
+import React, { ElementType, ReactNode } from "react";
 import {
   Modal,
   ModalContent,
@@ -9,24 +8,36 @@ import {
   useDisclosure,
   ButtonProps,
 } from "@nextui-org/react";
-import SaveButton from "@/components/UI/SaveButton";
+import IconButton from "@/components/UI/IconButton";
+import ButtonUI from "./Button";
 
-interface SaveButtonProps extends ButtonProps {
+interface ConfirmButtonProps extends ButtonProps {
   onSave: () => void;
+  headerText: string;
+  confirmButtonText?: string;
+  triggerIcon?: ReactNode;
 }
 
-const SaveMessage = ({ onSave, ...props }: SaveButtonProps) => {
+const ConfirmModal = ({
+  onSave,
+  headerText,
+  confirmButtonText,
+  triggerIcon,
+  ...props
+}: ConfirmButtonProps) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
     <>
-      <SaveButton {...props} onClick={onOpen} />
+      <ButtonUI onClick={onOpen} isIconOnly {...props}>
+        {triggerIcon}
+      </ButtonUI>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Зберегти повідомлення?
+                {headerText}
               </ModalHeader>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
@@ -39,7 +50,7 @@ const SaveMessage = ({ onSave, ...props }: SaveButtonProps) => {
                     onClose();
                   }}
                 >
-                  Зберегти
+                  {confirmButtonText || "Зберегти"}
                 </Button>
               </ModalFooter>
             </>
@@ -50,4 +61,4 @@ const SaveMessage = ({ onSave, ...props }: SaveButtonProps) => {
   );
 };
 
-export default SaveMessage;
+export default ConfirmModal;

@@ -6,4 +6,11 @@ export type incidentKeys =
   | "user"
   | "startDate"
   | "isSLA";
-export type Incident = Record<incidentKeys, "string">;
+
+// Окремий тип для властивостей, які мають бути boolean
+export type BooleanKeys = "isSLA";
+
+// Умовний тип для визначення типу кожної властивості
+export type Incident = {
+  [K in incidentKeys]: K extends BooleanKeys ? boolean : string;
+} & { id: number };

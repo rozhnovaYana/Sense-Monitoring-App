@@ -13,6 +13,7 @@ interface NavigationOptionsProps {
 const NavigationOptions = ({ user }: NavigationOptionsProps) => {
   const pathname = usePathname();
   const links = [
+    { title: "Головна", path: "/posts" },
     { title: "Повідомлення", path: "/messages" },
     { title: "Аналітика", path: "/analytic" },
   ];
