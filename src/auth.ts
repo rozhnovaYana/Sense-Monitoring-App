@@ -1,7 +1,8 @@
-import NextAuth, { DefaultSession } from "next-auth";
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 import { execSync } from "child_process";
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
     signIn: "/login",
@@ -30,6 +31,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return false;
       }
       return true;
+    },
+    async session({ session, user }: any) {
+      if (session && user) {
+        session.user.id = user.id;
+      }
+      return session;
     },
   },
 });
