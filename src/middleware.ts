@@ -12,7 +12,7 @@ export default async function middleware(request: NextRequest) {
     (prefix) => request.nextUrl.pathname === prefix
   );
 
-  if (!session && isProtectedRoute) {
+  if (!session?.user?.name && isProtectedRoute) {
     const absoluteURL = new URL("/login", request.nextUrl.origin);
     return NextResponse.redirect(absoluteURL.toString());
   }

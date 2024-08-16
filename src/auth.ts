@@ -1,8 +1,8 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-
 import { execSync } from "child_process";
-import { fetchData } from "./utils/https";
+
+import { fetchData } from "@/utils/https";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
@@ -26,7 +26,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               name: credentials?.name,
             }),
           })) || [];
-        console.log(data);
+
         if (!data.user) {
           return {};
         }
@@ -45,16 +45,23 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     authorized: async ({ auth }) => {
       return !!auth;
     },
+    jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
     async signIn({ user, ...props }) {
       if (!user?.name) {
         return false;
       }
       return true;
     },
-    async session({ session, user }: any) {
-      if (session && user) {
-        session.user.id = user.id;
+    async session({ session, token }: any) {
+      if (session && token) {
+        session.user.id = token?.id;
       }
+
       return session;
     },
   },

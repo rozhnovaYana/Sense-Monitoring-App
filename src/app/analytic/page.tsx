@@ -136,9 +136,7 @@ export default function AnalyticsPage() {
           <Chip>
             SLA:{" "}
             <span
-              className={
-                slaCountPerc > 93 ? "text-success-300" : "text-danger"
-              }
+              className={slaCountPerc > 93 ? "text-success-300" : "text-danger"}
             >
               {slaCountPerc}%
             </span>

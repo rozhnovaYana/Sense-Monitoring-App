@@ -12,7 +12,7 @@ datasource db {
 
 model User {
   id            String    @id @default(cuid())
-  name          String
+  name          String @unique
   role          Role  @default(USER)
   Incident       Incident[]
   Post       Post[]
