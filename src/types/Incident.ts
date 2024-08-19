@@ -1,16 +1,21 @@
+import { User } from "@/types/User";
+
 export type incidentKeys =
   | "timeRequest"
   | "timeSend"
   | "reporter"
   | "numberOfIncident"
-  | "user"
   | "startDate"
-  | "isSLA";
+  | "isSLA"
+  | "user";
 
-// Окремий тип для властивостей, які мають бути boolean
 export type BooleanKeys = "isSLA";
+export type UserKeys = "user";
 
-// Умовний тип для визначення типу кожної властивості
 export type Incident = {
-  [K in incidentKeys]: K extends BooleanKeys ? boolean : string;
+  [K in incidentKeys]: K extends BooleanKeys
+    ? boolean
+    : K extends UserKeys
+    ? User
+    : string;
 } & { id: number };

@@ -17,9 +17,9 @@ export const createPost = async (
   formData: FormData
 ): Promise<createDiscussState> => {
   const session = await auth();
-  const user = session?.user?.name;
+  const userId = session?.user?.id;
 
-  if (!user) {
+  if (!userId) {
     return {
       errors: {
         _form: "Ви маєте спочатку зареєструватись у системі.",
@@ -36,7 +36,7 @@ export const createPost = async (
   }
 
   const data = {
-    user,
+    userId,
     ...validatedData.data,
   };
 
@@ -58,9 +58,9 @@ export const createPost = async (
 };
 export const deletePost = async (id: string) => {
   const session = await auth();
-  const user = session?.user?.name;
+  const userId = session?.user?.id;
 
-  if (!user) return;
+  if (!userId) return;
 
   try {
     const post = await db.post.delete({

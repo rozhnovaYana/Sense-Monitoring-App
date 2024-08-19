@@ -26,8 +26,9 @@ import { getIncidents } from "@/actions/Incident";
 import { Incident } from "@/types/Incident";
 import { analyticsFileds, sortDescriptors } from "@/data/analytics";
 import { FaSortDown } from "react-icons/fa";
-import moment from "moment";
 import { FaXmark } from "react-icons/fa6";
+import moment from "moment";
+import { User } from "@/types/User";
 
 export default function AnalyticsPage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -50,15 +51,18 @@ export default function AnalyticsPage() {
       }
     })();
   }, []);
-  const usersList = items.reduce((acc: string[], item: Incident) => {
-    if (acc?.indexOf(item?.user) === -1) {
+  const usersList = items.reduce((acc: User[], item: Incident) => {
+    if (!acc?.find((el) => el.id === item.user.id)) {
       acc.push(item?.user);
     }
     return acc;
   }, []);
   // filter Data
   const filteredItems = useMemo(() => {
-    let filteredItemsArray = [...items];
+    let filteredItemsArray = items.map(({ user, ...rest }) => ({
+      ...rest,
+      user: user.name,
+    }));
     const startDate = dateFilter?.start?.toString();
     const endDate = dateFilter?.end?.toString();
     if (startDate && endDate) {
@@ -80,7 +84,7 @@ export default function AnalyticsPage() {
       Array.from(userFilter).length !== usersList.length
     ) {
       filteredItemsArray = filteredItemsArray.filter((item) =>
-        Array.from(userFilter).includes(item.user)
+        Array.from(userFilter).includes(item?.user)
       );
     }
     return filteredItemsArray;
@@ -111,8 +115,8 @@ export default function AnalyticsPage() {
               onSelectionChange={setUserFilter}
             >
               {usersList?.map((user, index) => (
-                <DropdownItem key={user} className="capitalize">
-                  {user}
+                <DropdownItem key={user.id} className="capitalize">
+                  {user.name}
                 </DropdownItem>
               ))}
             </DropdownMenu>
@@ -159,7 +163,7 @@ export default function AnalyticsPage() {
           isLoading={isLoading}
           loadingContent={<Spinner label="Дивись у Zabbix..." />}
         >
-          {(item: Incident) => (
+          {(item) => (
             <TableRow
               key={item.numberOfIncident}
               className={`bg-gradient-radial ${

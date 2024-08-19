@@ -5,5 +5,8 @@ export const getCommentsById = (postId: string) => {
     where: {
       postId,
     },
+    include: {
+      user: true,
+    },
   });
 };

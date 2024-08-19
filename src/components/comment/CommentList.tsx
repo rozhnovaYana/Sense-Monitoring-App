@@ -3,10 +3,11 @@ import React from "react";
 import Comment from "@/components/comment/Comment";
 
 import { getCommentsById } from "@/db/queries/comments";
+import { User } from "@/types/User";
 
 type CommentListProps = {
   id: string;
-  user: string;
+  user: User;
 };
 
 const CommentList = async ({ id, user }: CommentListProps) => {

@@ -8,26 +8,28 @@ import CommentList from "@/components/comment/CommentList";
 import DiscussCard from "@/components/UI/DiscussCard";
 
 import { createPost, deletePost } from "@/actions/posts";
+import { User } from "@/types/User";
 
 type PostProps = {
   id: string;
   content: string;
-  user: string;
+  userId: string;
   createdAt: Date;
   updatedAt: Date;
+  user: User;
 };
 
-const Post = async ({ content, updatedAt, user, id }: PostProps) => {
+const Post = async ({ content, updatedAt, userId, id, user }: PostProps) => {
   const session = await auth();
-  const activeUser = session?.user?.name;
+  const activeUser = session?.user?.id;
 
   return (
     <Card className="py-3 px-5 w-full">
       <DiscussCard
-        postCreatedByActiveUser={activeUser === user}
+        postCreatedByActiveUser={activeUser === userId}
         content={content}
         updatedAt={updatedAt}
-        user={user}
+        userName={user.name}
         id={id}
         formAction={createPost}
         onDeleteItem={deletePost}

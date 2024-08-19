@@ -6,7 +6,6 @@ export const fetchData = async (url: string, params: {} = {}) => {
   }
   try {
     const data = await fetch(url, { ...params });
-    console.log(url);
     if (!data.ok) {
       throw new Error("Something went wrong");
     }

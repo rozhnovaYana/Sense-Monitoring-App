@@ -3,7 +3,7 @@
 import { auth } from "@/auth";
 import moment from "moment";
 import { db } from "@/db";
-import { Incident } from "@prisma/client";
+import { Incident } from "@/types/Incident";
 
 export type FormState = {
   error?: string;
@@ -21,6 +21,9 @@ export const getIncidents = async (): Promise<Incident[]> => {
     orderBy: {
       id: "desc",
     },
+    include: {
+      user: true,
+    },
   });
   return incidents;
 };
@@ -37,9 +40,10 @@ export const saveIncident = async (
     const reporter = formdata.get("reporter") as string;
     const timeRequest = formdata.get("timeRequest") as string;
     const timeSend = formdata.get("timeSend") as string;
-    const user = session?.user?.name;
+    const userId = session?.user?.id;
+
     // check if user exists and formDate is filled
-    if (!user) {
+    if (!userId) {
       return {
         success: false,
         message: "Лише залогінені користувачі можуть виконувати цю дію.",
@@ -81,14 +85,14 @@ export const saveIncident = async (
       timeRequest,
       timeSend,
       reporter,
-      user,
+      userId,
       startDate: date,
       isSLA,
     };
 
     await db.incident.upsert({
       where: {
-        numberOfIncident: numberOfIncident,
+        numberOfIncident,
       },
       update: { ...incident },
       create: { ...incident },

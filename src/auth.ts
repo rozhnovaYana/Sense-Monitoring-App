@@ -23,10 +23,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              name: credentials?.name,
+              login: credentials?.name,
             }),
           })) || [];
-
+        console.log(data);
         if (!data.user) {
           return {};
         }

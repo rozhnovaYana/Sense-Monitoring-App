@@ -16,12 +16,12 @@ export const createComment = async (
   formData: FormData
 ): Promise<createDiscussState> => {
   const session = await auth();
-  const user = session?.user?.name;
+  const userId = session?.user?.id;
 
-  if (!user) {
+  if (!userId) {
     return {
       errors: {
-        _form: "Ви маєте спочатку зареєструватись у системі.",
+        _form: "Тільки зареєстровані користувачі можуть додавати коментарі.",
       },
     };
   }
@@ -35,14 +35,10 @@ export const createComment = async (
     return { errors: validatedData.error.flatten().fieldErrors };
   }
 
-  const data = {
-    user,
-    postId,
-    ...validatedData.data,
-  };
-
+  const data = { ...validatedData.data, postId, userId };
+  console.log(data);
   try {
-    const comment = await db.comment.upsert({
+    await db.comment.upsert({
       where: { id: commentID },
       create: { ...data },
       update: { ...data },
@@ -60,12 +56,12 @@ export const createComment = async (
 
 export const deleteComment = async (id: string) => {
   const session = await auth();
-  const user = session?.user?.name;
+  const userId = session?.user?.id;
 
-  if (!user) return;
+  if (!userId) return;
 
   try {
-    const comment = await db.comment.delete({
+    await db.comment.delete({
       where: { id },
     });
   } catch {}

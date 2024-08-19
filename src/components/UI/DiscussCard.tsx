@@ -2,17 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
-import {
-  IoIosBrush,
-  IoIosCheckmark,
-  IoIosSave,
-  IoIosTrash,
-} from "react-icons/io";
+import { IoIosBrush, IoIosSave, IoIosTrash } from "react-icons/io";
 
 import { Textarea } from "@nextui-org/react";
 
-import { createPost, deletePost } from "@/actions/posts";
-import IconButton from "@/components/UI/IconButton";
 import ConfirmModal from "@/components/UI/ConfirmModal";
 
 import { useDateFormatter } from "@/hooks/useDateFormatter";
@@ -27,7 +20,7 @@ type createDiscussState = {
 
 type DiscussCardProps = {
   content: string;
-  user: string;
+  userName: string;
   updatedAt: Date;
   postCreatedByActiveUser: boolean;
   id: string;
@@ -43,7 +36,7 @@ type DiscussCardProps = {
 const DiscussCard = ({
   content,
   updatedAt,
-  user,
+  userName,
   postCreatedByActiveUser,
   id,
   formAction,
@@ -80,7 +73,7 @@ const DiscussCard = ({
       <form action={action} className="w-full">
         <div className="flex gap-2 justify-between">
           <div>
-            <span className="text-gray-500 text-xs mr-2">{user}</span>
+            <span className="text-gray-500 text-xs mr-2">{userName}</span>
             <span className=" text-gray-500 italic text-xs">
               {convertData(updatedAt)}
             </span>
