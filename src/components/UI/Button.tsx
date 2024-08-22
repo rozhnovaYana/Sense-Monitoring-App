@@ -9,7 +9,7 @@ const ButtonUI = ({ children, ...props }: ButtonProps) => {
 
   return (
     <Button isLoading={pending} {...props}>
-      {children}
+      {!pending && children}
     </Button>
   );
 };

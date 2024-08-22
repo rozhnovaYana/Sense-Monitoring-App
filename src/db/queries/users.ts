@@ -8,3 +8,8 @@ export const getUserFromDB = async (login: string) => {
   });
   return user;
 };
+
+export const getAllUsers = async () => {
+  const users = await db.user.findMany();
+  return users || [];
+};

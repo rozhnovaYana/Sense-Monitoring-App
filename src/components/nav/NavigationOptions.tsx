@@ -5,9 +5,10 @@ import { Button, Link, NavbarContent, NavbarItem } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
 
 import { signOutAction } from "@/actions/sign-out";
+import { User } from "@/types/User";
 
 interface NavigationOptionsProps {
-  user: string;
+  user: User;
 }
 
 const NavigationOptions = ({ user }: NavigationOptionsProps) => {
@@ -17,6 +18,10 @@ const NavigationOptions = ({ user }: NavigationOptionsProps) => {
     { title: "Повідомлення", path: "/messages" },
     { title: "Аналітика", path: "/analytic" },
   ];
+  if (user.role.toLowerCase() === "admin") {
+    links.push({ title: "Адмін", path: "/admin" });
+  }
+
   return (
     <>
       <NavbarContent>
@@ -29,7 +34,7 @@ const NavigationOptions = ({ user }: NavigationOptionsProps) => {
         ))}
       </NavbarContent>
       <NavbarContent justify="end">
-        <NavbarItem className="text-gray-500">{user}</NavbarItem>
+        <NavbarItem className="text-gray-500">{user.name}</NavbarItem>
         <NavbarItem>
           <Button variant="bordered" onClick={() => signOutAction()}>
             Вийти

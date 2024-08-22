@@ -13,6 +13,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       name: "Credentials",
       credentials: {
         name: { label: "Username" },
+        login: { label: "Login" },
+        role: { label: "Role" },
         password: { label: "Password", type: "password" },
       },
       authorize: async (credentials) => {
@@ -26,7 +28,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               login: credentials?.name,
             }),
           })) || [];
-        console.log(data);
+
         if (!data.user) {
           return {};
         }
@@ -47,19 +49,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
+        token.user = { ...user };
       }
       return token;
     },
     async signIn({ user, ...props }) {
-      if (!user?.name) {
+      if (!user?.id) {
         return false;
       }
       return true;
     },
     async session({ session, token }: any) {
       if (session && token) {
-        session.user.id = token?.id;
+        session.user = token?.user;
       }
 
       return session;

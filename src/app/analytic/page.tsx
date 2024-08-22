@@ -150,7 +150,7 @@ export default function AnalyticsPage() {
       <Table
         aria-label="Example table with client side sorting"
         classNames={{
-          table: "min-h-[400px]",
+          table: "min-h-[100px]",
         }}
       >
         <TableHeader>

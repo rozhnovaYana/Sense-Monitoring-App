@@ -1,6 +1,5 @@
+export type userKeys = "name" | "role" | "login" | "actions";
+
 export type User = {
-  id: string;
-  name: string;
-  role: string;
-  login: string;
-};
+  [K in userKeys]: string;
+} & { id: string };

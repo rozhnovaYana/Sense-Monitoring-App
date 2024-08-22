@@ -1,4 +1,4 @@
-import React, { ElementType, ReactNode } from "react";
+import React, { ReactNode } from "react";
 import {
   Modal,
   ModalContent,
@@ -9,7 +9,6 @@ import {
   ButtonProps,
 } from "@nextui-org/react";
 import IconButton from "@/components/UI/IconButton";
-import ButtonUI from "./Button";
 
 interface ConfirmButtonProps extends ButtonProps {
   onSave: () => void;
@@ -29,9 +28,9 @@ const ConfirmModal = ({
 
   return (
     <>
-      <ButtonUI onClick={onOpen} isIconOnly {...props}>
+      <IconButton onClick={onOpen} isIconOnly {...props}>
         {triggerIcon}
-      </ButtonUI>
+      </IconButton>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (

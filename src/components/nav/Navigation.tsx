@@ -7,7 +7,7 @@ import { auth } from "@/auth";
 const Navigation = async () => {
   const session = await auth();
 
-  if (!session?.user?.name) return null;
+  if (!session?.user?.id) return null;
 
   return (
     <Navbar
@@ -32,7 +32,7 @@ const Navigation = async () => {
       shouldHideOnScroll
       maxWidth="full"
     >
-      <NavigationOptions user={session.user.name} />
+      <NavigationOptions user={session.user} />
     </Navbar>
   );
 };
