@@ -2,14 +2,13 @@
 
 import React, { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
-import { IoIosBrush, IoIosSave, IoIosTrash } from "react-icons/io";
-
 import { Textarea } from "@nextui-org/react";
 
 import ConfirmModal from "@/components/UI/ConfirmModal";
+import ButtonUI from "@/components/UI/Button";
+import { DeleteIcon, EditIcon, SaveIcon } from "@/components/icons/Icons";
 
 import { useDateFormatter } from "@/hooks/useDateFormatter";
-import ButtonUI from "./Button";
 
 type createDiscussState = {
   errors: {
@@ -63,15 +62,10 @@ const DiscussCard = ({
     Object.keys(formState.errors).length === 0 && setEditState((s) => !s);
   }, [formState]);
 
-  // add accordion
-  // edit message and comment
-  // delete message
-  // add comments
-  // createdAt or updatedAt?
   return (
     <div className={className}>
       <form action={action} className="w-full">
-        <div className="flex gap-2 justify-between">
+        <div className="flex justify-between">
           <div>
             <span className="text-gray-500 text-xs mr-2">{userName}</span>
             <span className=" text-gray-500 italic text-xs">
@@ -85,7 +79,7 @@ const DiscussCard = ({
                 headerText="Видалити повідомлення?"
                 confirmButtonText="Так"
                 onSave={() => onDeleteItem(id)}
-                triggerIcon={<IoIosTrash />}
+                triggerIcon={<DeleteIcon />}
                 color="danger"
                 variant="light"
                 size="sm"
@@ -97,7 +91,7 @@ const DiscussCard = ({
                 size="sm"
                 isIconOnly
               >
-                {editState ? <IoIosSave /> : <IoIosBrush />}
+                {editState ? <SaveIcon /> : <EditIcon />}
               </ButtonUI>
             </div>
           )}
@@ -108,7 +102,6 @@ const DiscussCard = ({
           ) : (
             <>
               <Textarea
-                className="mb-4"
                 placeholder="Повідомлення"
                 name="content"
                 fullWidth

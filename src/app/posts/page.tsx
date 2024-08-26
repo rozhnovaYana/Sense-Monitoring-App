@@ -5,7 +5,7 @@ import PostList from "@/components/post/PostList";
 
 const MainPage = () => {
   return (
-    <div className="flex  flex-col">
+    <div className="flex flex-col gap-2">
       <CreatePostForm />
       <PostList />
     </div>

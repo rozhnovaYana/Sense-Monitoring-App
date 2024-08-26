@@ -22,7 +22,7 @@ export default function RootLayout({
       <body className="blue-dark text-foreground bg-background px-14">
         <Provider>
           <Navigation />
-          {children}
+          <div className="py-10">{children}</div>
         </Provider>
         <ToastContainer position="top-right" theme="dark" />
       </body>

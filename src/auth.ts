@@ -1,8 +1,10 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { execSync } from "child_process";
+import ldap from "ldapjs";
 
 import { fetchData } from "@/utils/https";
+
+import { User } from "@prisma/client";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
@@ -10,14 +12,21 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   providers: [
     CredentialsProvider({
-      name: "Credentials",
+      name: "LDAP",
       credentials: {
-        name: { label: "Username" },
+        name: { label: "DN", type: "text", placeholder: "" },
+        password: { label: "Password", type: "password" },
         login: { label: "Login" },
         role: { label: "Role" },
-        password: { label: "Password", type: "password" },
       },
       authorize: async (credentials) => {
+        const name = credentials.name as string;
+        const password = credentials.password as string;
+
+        if (!name || !password) {
+          return {};
+        }
+
         const data =
           (await fetchData(`${process.env.NEXT_PUBLIC_API_DOMAIN}/auth`, {
             method: "POST",
@@ -32,14 +41,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (!data.user) {
           return {};
         }
-        const stdout = execSync(
-          `bash sense_auth.sh ${credentials.name} ${credentials.password}`
-        )?.toString();
 
-        if (stdout.trim() !== "login accepted") {
-          return {};
-        }
-        return { ...data.user };
+        const client = ldap.createClient({
+          url: process.env.LDAP_URI || "",
+        });
+
+        let user: User | {} = {};
+
+        client.bind(name, password, (error) => {
+          if (error) {
+            user = {};
+          } else {
+            user = { ...data.user };
+          }
+        });
+
+        return user;
       },
     }),
   ],
@@ -48,13 +65,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return !!auth;
     },
     jwt({ token, user }) {
-      if (user) {
+      if (user?.name) {
         token.user = { ...user };
       }
       return token;
     },
     async signIn({ user, ...props }) {
-      if (!user?.id) {
+      if (!user?.name) {
         return false;
       }
       return true;

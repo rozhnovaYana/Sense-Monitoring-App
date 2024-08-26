@@ -8,12 +8,13 @@ export const getMessagesByTerm = (term?: string) => {
       },
     });
   }
+  const decodedTerm = decodeURI(term);
   return db.message.findMany({
     where: {
       OR: [
-        { theme: { contains: term } },
-        { numberOfIncident: { contains: term } },
-        { reasons: { contains: term } },
+        { theme: { contains: decodedTerm, mode: "insensitive" } },
+        { numberOfIncident: { contains: decodedTerm, mode: "insensitive" } },
+        { reasons: { contains: decodedTerm, mode: "insensitive" } },
       ],
     },
     orderBy: {

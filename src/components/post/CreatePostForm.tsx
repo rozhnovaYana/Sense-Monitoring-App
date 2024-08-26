@@ -1,34 +1,43 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useFormState } from "react-dom";
 import { Textarea } from "@nextui-org/react";
-import { IoIosSend } from "react-icons/io";
 
-import ButtonUI from "@/components/UI/Button";
+import { SendIcon } from "@/components/icons/Icons";
+import IconButton from "@/components/UI/IconButton";
+
 import { createPost } from "@/actions/posts";
 
 const CreatePostForm = () => {
+  const ref = useRef<HTMLFormElement>(null);
   const [formState, action] = useFormState(createPost, {
     errors: {},
+    isSuccess: false,
   });
+  useEffect(() => {
+    formState.isSuccess && ref.current?.reset();
+  }, [formState.isSuccess]);
+
   return (
-    <form className="mt-10" action={action}>
+    <form ref={ref} action={action}>
       <Textarea
+        label="Нове повідомлення"
         variant="bordered"
-        placeholder="Повідомлення"
         name="content"
         isInvalid={!!formState.errors.content}
+        minRows={1}
         errorMessage={formState.errors.content?.join(", ")}
         endContent={
-          <ButtonUI
+          <IconButton
             size="sm"
             isIconOnly
             className="items-center mt-auto"
             type="submit"
+            variant="light"
           >
-            <IoIosSend />
-          </ButtonUI>
+            <SendIcon />
+          </IconButton>
         }
       />
 

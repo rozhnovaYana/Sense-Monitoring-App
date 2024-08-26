@@ -16,7 +16,7 @@ const CommentList = async ({ id, user }: CommentListProps) => {
     (comment) => comment.parentId === null
   );
   return (
-    <div className="gap-4 flex flex-col mt-4">
+    <div className="gap-4 flex flex-col">
       {topLevelComments.map((comment) => (
         <Comment
           user={user}

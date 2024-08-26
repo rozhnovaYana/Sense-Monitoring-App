@@ -1,9 +1,9 @@
 import React from "react";
 
 import { Card } from "@nextui-org/react";
-import CommentCreateForm from "@/components/comment/CommentCreateForm";
 
 import { auth } from "@/auth";
+import CommentCreateForm from "@/components/comment/CommentCreateForm";
 import CommentList from "@/components/comment/CommentList";
 import DiscussCard from "@/components/UI/DiscussCard";
 
@@ -24,7 +24,7 @@ const Post = async ({ content, updatedAt, userId, id, user }: PostProps) => {
   const activeUser = session?.user?.id;
 
   return (
-    <Card className="py-3 px-5 w-full">
+    <Card className="py-2 px-4 w-full">
       <DiscussCard
         postCreatedByActiveUser={activeUser === userId}
         content={content}

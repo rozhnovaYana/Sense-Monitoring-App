@@ -15,11 +15,12 @@ const NavigationOptions = ({ user }: NavigationOptionsProps) => {
   const pathname = usePathname();
   const links = [
     { title: "Головна", path: "/posts" },
-    { title: "Повідомлення", path: "/messages" },
+    { title: "Розсилка", path: "/messages" },
     { title: "Аналітика", path: "/analytic" },
   ];
-  if (user.role.toLowerCase() === "admin") {
-    links.push({ title: "Адмін", path: "/admin" });
+
+  if (user.role?.toLowerCase() === "admin") {
+    links.push({ title: "Налаштування", path: "/admin" });
   }
 
   return (

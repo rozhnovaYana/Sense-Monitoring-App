@@ -1,7 +1,6 @@
 "use client";
 
 import React, { Key, useCallback } from "react";
-import { IoIosBrush, IoIosTrash } from "react-icons/io";
 import { User as UserType } from "@prisma/client";
 import {
   Table,
@@ -14,6 +13,7 @@ import {
 
 import ConfirmModal from "@/components/UI/ConfirmModal";
 import UserModal from "@/components/users/UserModal";
+import { DeleteIcon, EditIcon } from "@/components/icons/Icons";
 
 import { sortDescriptors, userFields } from "@/data/user";
 import { deleteUser } from "@/actions/users";
@@ -28,23 +28,24 @@ const UsersList = ({ users }: UsersListProps) => {
       case "actions":
         return (
           <div className="relative flex items-center gap-2 justify-end">
+            {user.role === "USER" && (
+              <ConfirmModal
+                triggerIcon={<DeleteIcon />}
+                className="text-lg text-danger cursor-pointer active:opacity-50"
+                headerText={`Ви впевнені, що хочете видалити користувача ${user.login}?`}
+                onSave={() => deleteUser(user.id)}
+                type="submit"
+                confirmButtonText="Видалити"
+              />
+            )}
             <UserModal
               actionName="edit"
               user={user}
               isIconOnly
               variant="bordered"
               size="sm"
-              className="text-lg text-success cursor-pointer active:opacity-50"
-              trigger={<IoIosBrush />}
-            />
-
-            <ConfirmModal
-              triggerIcon={<IoIosTrash />}
-              className="text-lg text-danger cursor-pointer active:opacity-50"
-              headerText={`Ви впевнені, що хочете видалити користувача ${user.login}?`}
-              onSave={() => deleteUser(user.id)}
-              type="submit"
-              confirmButtonText="Видалити"
+              className="text-lg text-primary cursor-pointer active:opacity-50"
+              trigger={<EditIcon />}
             />
           </div>
         );

@@ -9,11 +9,12 @@ import MailingForm from "@/components/mailing/MailingForm";
 import { FormDataInitialState } from "@/data/formdata";
 import { FormStateDB, type FormState } from "@/types/Form";
 import { ReactNode, useRef, useState } from "react";
+import CardsGrid from "../cards/CardsGrid";
 
 export default function MessagesGenerator({
-  children,
+  messages,
 }: {
-  children: ReactNode;
+  messages: FormStateDB[];
 }) {
   const [formState, updateFormState] =
     useState<FormState>(FormDataInitialState);
@@ -50,7 +51,7 @@ export default function MessagesGenerator({
       <div>
         <Message formState={formState} />
         <SearchMessage />
-        {children}
+        <CardsGrid messages={messages} updateFormState={updateFormState} />
       </div>
     </div>
   );

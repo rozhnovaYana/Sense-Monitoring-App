@@ -10,6 +10,7 @@ export type createDiscussState = {
     content?: string[];
     _form?: string;
   };
+  isSuccess?: boolean;
 };
 
 export const createPost = async (
@@ -54,14 +55,13 @@ export const createPost = async (
     };
   }
   revalidatePath("/posts");
-  return { errors: {} };
+  return { errors: {}, isSuccess: true };
 };
 export const deletePost = async (id: string) => {
   const session = await auth();
   const userId = session?.user?.id;
 
   if (!userId) return;
-
   try {
     const post = await db.post.delete({
       where: { id },

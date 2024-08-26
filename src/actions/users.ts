@@ -12,7 +12,7 @@ export type createUserState = {
     role?: string[];
     _form?: string;
   };
-  isDone: boolean;
+  isSuccess?: boolean;
 };
 export const createUser = async (
   actionName: string,
@@ -27,7 +27,6 @@ export const createUser = async (
       errors: {
         _form: "Ви маєте спочатку зареєструватись у системі.",
       },
-      isDone: false,
     };
   }
   const role = session?.user?.role;
@@ -36,7 +35,6 @@ export const createUser = async (
       errors: {
         _form: "Тільки адміністратори можуть додавати/редагувати користувачів.",
       },
-      isDone: false,
     };
   }
   const user = {
@@ -47,7 +45,7 @@ export const createUser = async (
 
   const validatedData = UserLoginSchema.safeParse(user);
   if (!validatedData.success) {
-    return { errors: validatedData.error.flatten().fieldErrors, isDone: false };
+    return { errors: validatedData.error.flatten().fieldErrors };
   }
   try {
     const user = await db.user.findFirst({
@@ -61,7 +59,6 @@ export const createUser = async (
         errors: {
           _form: "Користувач з таким логіном вже існує!",
         },
-        isDone: false,
       };
     }
 
@@ -75,24 +72,23 @@ export const createUser = async (
       errors: {
         _form: "Щось пішло не так, будь ласка, спробуйте пізніше.",
       },
-      isDone: false,
     };
   }
 
   revalidatePath("/admin");
-  return { errors: {}, isDone: true };
+  return { errors: {}, isSuccess: true };
 };
 
 export const deleteUser = async (id: string) => {
   const session = await auth();
   const userId = session?.user?.id;
-
   if (!userId) return;
 
   try {
-    await db.user.delete({
+    const user = await db.user.delete({
       where: { id },
     });
+    console.log(user);
   } catch {}
   revalidatePath("/users");
 };

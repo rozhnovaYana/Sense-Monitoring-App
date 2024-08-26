@@ -1,21 +1,27 @@
 "use client";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import MessageCard from "@/components/cards/MessageCard";
-import { FormStateDB } from "@/types/Form";
+import { FormState, FormStateDB } from "@/types/Form";
 import { ScrollShadow } from "@nextui-org/react";
+import { FormDataInitialState } from "@/data/formdata";
 
-const CardsGrid = ({ messages }: { messages: FormStateDB[] }) => {
+const CardsGrid = ({
+  messages,
+  updateFormState,
+}: {
+  messages: FormStateDB[];
+  updateFormState: Dispatch<SetStateAction<FormState>>;
+}) => {
   const onCardPress = (message: FormStateDB) => {
-    
-    // const updatedMessage: FormState = {
-    //   ...message,
-    //   startDate: FormDataInitialState.startDate,
-    //   endDate: undefined,
-    //   numberOfIncident: FormDataInitialState.numberOfIncident,
-    //   numberOfMessage: FormDataInitialState.numberOfMessage,
-    //   isResolved: false,
-    // };
-    // updateFormState(updatedMessage);
+    const updatedMessage: FormState = {
+      ...message,
+      startDate: FormDataInitialState.startDate,
+      endDate: undefined,
+      numberOfIncident: FormDataInitialState.numberOfIncident,
+      numberOfMessage: FormDataInitialState.numberOfMessage,
+      isResolved: false,
+    };
+    updateFormState(updatedMessage);
   };
 
   return (

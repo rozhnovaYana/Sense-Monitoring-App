@@ -34,13 +34,13 @@ const UserModal = ({ actionName, trigger, user, ...props }: UserModalProps) => {
     createUser.bind(null, actionName),
     {
       errors: {},
-      isDone: false,
+      isSuccess: false,
     }
   );
 
   useEffect(() => {
-    formState.isDone && onClose();
-  }, [formState.isDone, onClose]);
+    formState.isSuccess && onClose();
+  }, [formState.isSuccess, onClose]);
 
   return (
     <div>

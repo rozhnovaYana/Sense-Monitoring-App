@@ -6,5 +6,6 @@ export const searchMessage = (term: string) => {
   if (!term || typeof term !== "string") {
     redirect("/messages");
   }
-  redirect(`/messages?term=${term}`);
+  const encodedUrl = encodeURI(term);
+  redirect(`/messages?term=${encodedUrl}`);
 };

@@ -2,10 +2,10 @@
 
 import React from "react";
 import { useFormState } from "react-dom";
-import { IoIosSend } from "react-icons/io";
 
 import CustomInput from "@/components/UI/Input";
 import IconButton from "@/components/UI/IconButton";
+import { SendIcon } from "@/components/icons/Icons";
 
 import { createComment } from "@/actions/comment";
 
@@ -27,7 +27,7 @@ const CommentCreateForm = ({ id }: CommentCreateFormProps) => {
         variant="bordered"
         endContent={
           <IconButton type="submit" variant="light">
-            <IoIosSend />
+            <SendIcon />
           </IconButton>
         }
       />

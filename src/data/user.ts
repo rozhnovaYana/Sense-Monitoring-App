@@ -6,4 +6,5 @@ export const userFields = {
   role: "Роль",
   actions: "",
 };
-export const sortDescriptors: userKeys[] = ["name", "login", "role", "actions"];
+type userFileds = (userKeys | "actions")[];
+export const sortDescriptors: userFileds = ["name", "login", "role", "actions"];
