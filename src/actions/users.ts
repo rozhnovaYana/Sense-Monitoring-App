@@ -4,16 +4,8 @@ import { auth } from "@/auth";
 import { db } from "@/db";
 import { UserLoginSchema, UserSchema } from "./schema";
 import { revalidatePath } from "next/cache";
+import { createUserState } from "@/types/FormStates";
 
-export type createUserState = {
-  errors: {
-    name?: string[];
-    login?: string[];
-    role?: string[];
-    _form?: string;
-  };
-  isSuccess?: boolean;
-};
 export const createUser = async (
   actionName: string,
   state: createUserState,

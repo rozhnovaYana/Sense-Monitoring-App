@@ -4,14 +4,7 @@ import { auth } from "@/auth";
 import { db } from "@/db";
 import { PostSchema } from "@/actions//schema";
 import { revalidatePath } from "next/cache";
-
-export type createDiscussState = {
-  errors: {
-    content?: string[];
-    _form?: string;
-  };
-  isSuccess?: boolean;
-};
+import { createDiscussState } from "@/types/FormStates";
 
 export const createPost = async (
   state: createDiscussState,

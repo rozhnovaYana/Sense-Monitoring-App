@@ -93,8 +93,8 @@ export default function AnalyticsPage() {
   const slaCount = filteredItems.filter((item) => item.isSLA).length;
   const slaCountPerc = (+slaCount / +filteredItems?.length) * 100;
   return (
-    <div className="flex flex-col">
-      <div className="flex my-5 gap-3 justify-between items-center">
+    <div className="flex flex-col gap-5">
+      <div className="flex gap-3 justify-between items-center">
         <div className="flex gap-3 ">
           <Dropdown backdrop="blur">
             <DropdownTrigger>

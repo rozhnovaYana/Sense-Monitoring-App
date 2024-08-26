@@ -16,6 +16,7 @@ type CommentCreateFormProps = {
 const CommentCreateForm = ({ id }: CommentCreateFormProps) => {
   const [formState, action] = useFormState(createComment, {
     errors: {},
+    isSuccess: false,
   });
 
   return (

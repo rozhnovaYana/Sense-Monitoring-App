@@ -1,16 +1,14 @@
 "use server";
 
-import { auth } from "@/auth";
-import { PostSchema } from "./schema";
-import { db } from "@/db";
 import { revalidatePath } from "next/cache";
 
-type createDiscussState = {
-  errors: {
-    _form?: string;
-    content?: string[];
-  };
-};
+import { PostSchema } from "@/actions/schema";
+
+import { auth } from "@/auth";
+import { db } from "@/db";
+
+import { createDiscussState } from "@/types/FormStates";
+
 export const createComment = async (
   state: createDiscussState,
   formData: FormData
@@ -25,18 +23,22 @@ export const createComment = async (
       },
     };
   }
+
   const post = {
     content: formData.get("content") || "",
   };
+
   const commentID = (formData.get("id") || "") as string;
   const postId = (formData.get("postId") || "") as string;
+
   const validatedData = PostSchema.safeParse(post);
+
   if (!validatedData.success) {
     return { errors: validatedData.error.flatten().fieldErrors };
   }
 
   const data = { ...validatedData.data, postId, userId };
-  console.log(data);
+
   try {
     await db.comment.upsert({
       where: { id: commentID },
@@ -51,7 +53,7 @@ export const createComment = async (
     };
   }
   revalidatePath("/posts");
-  return { errors: {} };
+  return { errors: {}, isSuccess: true };
 };
 
 export const deleteComment = async (id: string) => {
@@ -65,5 +67,6 @@ export const deleteComment = async (id: string) => {
       where: { id },
     });
   } catch {}
+
   revalidatePath("/posts");
 };

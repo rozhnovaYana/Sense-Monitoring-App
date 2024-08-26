@@ -15,7 +15,8 @@ import {
 } from "@nextui-org/react";
 import ButtonUI from "@/components/UI/Button";
 import CustomInput from "../UI/Input";
-import { createUser, createUserState } from "@/actions/users";
+import { createUser } from "@/actions/users";
+import { createUserState } from "@/types/FormStates";
 import { useFormState } from "react-dom";
 import { Role, User } from "@prisma/client";
 

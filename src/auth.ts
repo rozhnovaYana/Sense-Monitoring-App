@@ -48,14 +48,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         let user: User | {} = {};
 
-        client.bind(name, password, (error) => {
-          if (error) {
-            user = {};
-          } else {
-            user = { ...data.user };
-          }
-        });
-
+        // client.bind(name, password, (error) => {
+        //   if (error) {
+        //     user = {};
+        //   } else {
+        //     user = { ...data.user };
+        //   }
+        // });
+        user = { ...data.user };
         return user;
       },
     }),

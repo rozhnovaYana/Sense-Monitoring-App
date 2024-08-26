@@ -27,7 +27,7 @@ export default function MessagesGenerator({
   };
 
   return (
-    <div className="grid grid-cols-2 mt-10 gap-10">
+    <div className="grid grid-cols-2 gap-10">
       <div className="flex flex-col relative">
         <Button
           size="sm"

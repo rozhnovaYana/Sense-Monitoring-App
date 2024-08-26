@@ -9,13 +9,7 @@ import ButtonUI from "@/components/UI/Button";
 import { DeleteIcon, EditIcon, SaveIcon } from "@/components/icons/Icons";
 
 import { useDateFormatter } from "@/hooks/useDateFormatter";
-
-type createDiscussState = {
-  errors: {
-    content?: string[];
-    _form?: string;
-  };
-};
+import { createDiscussState } from "@/types/FormStates";
 
 type DiscussCardProps = {
   content: string;
@@ -44,7 +38,10 @@ const DiscussCard = ({
   postId,
 }: DiscussCardProps) => {
   const [editState, setEditState] = useState(false);
-  const [formState, action] = useFormState(formAction, { errors: {} });
+  const [formState, action] = useFormState(formAction, {
+    errors: {},
+    isSuccess: false,
+  });
 
   let formatter = useDateFormatter();
   const convertData = (data: Date) => formatter.format(data);

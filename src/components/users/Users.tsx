@@ -8,7 +8,7 @@ import { createUser } from "@/actions/users";
 
 const Users = ({ users }: { users: User[] }) => {
   return (
-    <div className="mt-9 flex flex-col gap-5">
+    <div className="flex flex-col gap-5">
       <UserModal actionName="create" trigger="Створити користувача" />
       <UsersList users={users} />
     </div>
