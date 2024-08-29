@@ -10,7 +10,6 @@ import { saveMessage } from "@/actions/messages";
 
 import { useDateFormatter } from "@/hooks/useDateFormatter";
 import ConfirmModal from "../UI/ConfirmModal";
-import SaveButton from "@/components/UI/SaveButton";
 
 type MessageProps = {
   formState: FormState;

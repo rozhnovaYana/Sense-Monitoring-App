@@ -41,7 +41,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
 
         // remove the next line for the production
-        return { ...data };
+        return { ...data.user };
 
         const client = ldap.createClient({
           url: process.env.LDAP_URI || "",
