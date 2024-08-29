@@ -5,6 +5,15 @@ export const UserSchema = z.object({
   password: z.string().trim().min(3),
 });
 
+export const IncidentSchema = z.object({
+  message: z.string().trim().min(3),
+  timeRequest: z.string().trim().min(3),
+  timeSend: z.string().trim().min(3),
+  reporter: z.string().trim().min(3),
+  numberOfIncident: z.string().trim().min(3),
+  startDate: z.string().trim().min(3),
+});
+
 export const PostSchema = z.object({
   content: z
     .string()
@@ -12,9 +21,8 @@ export const PostSchema = z.object({
     .min(3, "Повідомлення повинно мати мінімум 3 символи."),
 });
 
-const VALUES = ["ADMIN", "USER"] as const;
 export const UserLoginSchema = z.object({
   name: z.string().trim().min(3),
   login: z.string().trim().min(3),
-  role: z.enum(VALUES),
+  role: z.enum(["ADMIN", "USER"] as const),
 });

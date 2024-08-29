@@ -1,9 +1,7 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import ldap from "ldapjs";
-
+import ldap, { parseDN } from "ldapjs";
 import { fetchData } from "@/utils/https";
-
 import { User } from "@prisma/client";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -42,21 +40,69 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return {};
         }
 
+        // remove the next line for the production
+        return { ...data };
+
         const client = ldap.createClient({
           url: process.env.LDAP_URI || "",
         });
 
-        let user: User | {} = {};
+        return new Promise((resolve, reject) => {
+          client.bind(
+            process.env.LDAP_DN as string,
+            process.env.LDAP_PASSWORD as string,
+            (error) => {
+              if (error) {
+                reject("LDAP bound failed");
+              } else {
+                const opts: ldap.SearchOptions = {
+                  filter: `(&(SamAccountName=${name}))`,
+                  scope: "sub",
+                  attributes: ["dn", "sn", "cn"],
+                };
 
-        // client.bind(name, password, (error) => {
-        //   if (error) {
-        //     user = {};
-        //   } else {
-        //     user = { ...data.user };
-        //   }
-        // });
-        user = { ...data.user };
-        return user;
+                client.search(
+                  process.env.LDAP_BASE_DN as string,
+                  opts,
+                  (err, res) => {
+                    if (err) {
+                      reject(`User ${name} LDAP search error`);
+                    } else {
+                      res.on("searchRequest", (searchRequest) => {
+                        console.log("searchRequest: ", searchRequest.messageID);
+                      });
+                      res.on("searchEntry", (entry) => {
+                        const cn = entry?.pojo?.attributes?.find(
+                          (el) => el?.type === "cn"
+                        )?.values;
+                        const dn = entry.pojo.objectName.replace(
+                          /CN=[^,]+/,
+                          `CN=${cn}`
+                        );
+                        client.bind(dn, password, (err, res) => {
+                          if (err) {
+                            reject(`User ${name} username or password problem`);
+                          } else {
+                            resolve({
+                              ...data.user,
+                            });
+                          }
+                        });
+                      });
+                      res.on("searchReference", (referral) => {
+                        console.log("referral: " + referral.uris.join());
+                      });
+                      res.on("error", (err) => {
+                        reject("LDAP SEARCH error");
+                      });
+                      res.on("end", (result) => {});
+                    }
+                  }
+                );
+              }
+            }
+          );
+        });
       },
     }),
   ],

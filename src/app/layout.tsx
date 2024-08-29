@@ -8,7 +8,7 @@ import "@/assets/styles/global.sass";
 import { ReactNode } from "react";
 
 export const metadata: Metadata = {
-  title: "Sense Monitoring App",
+  title: "Monitoring App",
   description: "App to generate Message for Monitoring Department.",
 };
 
