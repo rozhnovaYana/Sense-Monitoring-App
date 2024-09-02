@@ -34,10 +34,13 @@ export default function AnalyticsPage() {
   const [isLoading, setIsLoading] = useState(true);
   // filters
   const [userFilter, setUserFilter] = useState<Selection>("all");
-  const [dateFilter, setdateFilter] = useState<RangeValue<DateValue>>();
+  const [dateFilter, setdateFilter] = useState<RangeValue<DateValue> | null>(
+    null
+  );
   const [items, setItems] = useState<Incident[]>([]);
+
   const resetdata = () => {
-    setdateFilter(undefined);
+    setdateFilter(null);
   };
   // get initial Data
   useEffect(() => {
@@ -91,7 +94,9 @@ export default function AnalyticsPage() {
   }, [items, userFilter, usersList, dateFilter]);
 
   const slaCount = filteredItems.filter((item) => item.isSLA).length;
-  const slaCountPerc = (+slaCount / +filteredItems?.length) * 100;
+  const slaCountPerc = +((+slaCount / +filteredItems?.length) * 100)?.toFixed(
+    2
+  );
   return (
     <div className="flex flex-col gap-5">
       <div className="flex gap-3 justify-between items-center">
@@ -115,7 +120,7 @@ export default function AnalyticsPage() {
               onSelectionChange={setUserFilter}
             >
               {usersList?.map((user, index) => (
-                <DropdownItem key={user.id} className="capitalize">
+                <DropdownItem key={user.name} className="capitalize">
                   {user.name}
                 </DropdownItem>
               ))}

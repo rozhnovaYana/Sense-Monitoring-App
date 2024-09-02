@@ -1,8 +1,7 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import ldap, { parseDN } from "ldapjs";
+import ldap from "ldapjs";
 import { fetchData } from "@/utils/https";
-import { User } from "@prisma/client";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
@@ -40,8 +39,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return {};
         }
 
-        // remove the next line for the production
-        return { ...data.user };
+        // // remove the next line for the production
+        // return { ...data.user };
 
         const client = ldap.createClient({
           url: process.env.LDAP_URI || "",

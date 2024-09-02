@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FormState } from "@/types/Form";
 
-import { Button } from "@nextui-org/react";
 import { FaCopy, FaRegCopy, FaSave } from "react-icons/fa";
 
 import { levels } from "@/data/formdata";
@@ -9,7 +8,8 @@ import { getTimeDifference } from "@/utils/dateHelpers";
 import { saveMessage } from "@/actions/messages";
 
 import { useDateFormatter } from "@/hooks/useDateFormatter";
-import ConfirmModal from "../UI/ConfirmModal";
+import ConfirmModal from "@/components/UI/ConfirmModal";
+import IconButton from "@/components/UI/IconButton";
 
 type MessageProps = {
   formState: FormState;
@@ -56,8 +56,7 @@ const Message = ({ formState }: MessageProps) => {
       startDate: convertData(startDate),
       endDate: endDate && convertData(endDate),
     };
-    const messages = await saveMessage(newMessage);
-    // setMessages(messages);
+    await saveMessage(newMessage);
   };
 
   return (
@@ -90,15 +89,16 @@ const Message = ({ formState }: MessageProps) => {
         <div className="text-success-700">{numberOfIncident}</div>
       </div>
       <div className="flex gap-3">
-        <Button
+        <IconButton
+          color="primary"
           onClick={onCopyText}
           variant="ghost"
-          isIconOnly
           className="mt-4"
         >
           {isCopied ? <FaCopy color="#c8ebad" /> : <FaRegCopy />}
-        </Button>
+        </IconButton>
         <ConfirmModal
+          color="success"
           triggerIcon={<FaSave />}
           className="mt-4 items-center"
           headerText="Зберегти повідомлення?"

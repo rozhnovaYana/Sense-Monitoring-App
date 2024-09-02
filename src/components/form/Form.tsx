@@ -6,7 +6,13 @@ import DatePickerCustom from "@/components/UI/DatePicker";
 
 import CustomInput from "@/components/UI/Input";
 import { FormState } from "@/types/Form";
-import { convertISOToZonned, convertZonnedToDate } from "@/utils/dateHelpers";
+import {
+  convertISOToZonned,
+  convertZonnedToDate,
+  getTimeDifference,
+} from "@/utils/dateHelpers";
+import { useDateFormatter } from "@/hooks/useDateFormatter";
+import moment from "moment";
 
 const Form = ({
   formState: {
@@ -34,6 +40,11 @@ const Form = ({
       [field]: value,
     }));
   };
+  const timeFormat = "DD:MM:YY HH:mm:ss";
+
+  const dateStart = startDate && moment(startDate, timeFormat);
+  const dateEnd = endDate && moment(endDate, timeFormat);
+
   return (
     <form className="grid gap-5" suppressHydrationWarning>
       <LevelSelector value={level} onItemUpdate={onItemUpdate} />
@@ -74,15 +85,18 @@ const Form = ({
           onItemUpdate={(v: DateValue) =>
             onItemUpdate("endDate", convertZonnedToDate(v))
           }
+          isInvalid={dateEnd?.isBefore(dateStart)}
+          errorMessage="Дата закінчення має бути більшою за дату початку!"
         />
       </div>
       <div className="grid grid-cols-2 gap-2">
         <CustomInput
-          type="number"
           defaultValue="1"
           label="№ повідомлення"
           value={numberOfMessage}
-          onValueChange={(t) => onItemUpdate("numberOfMessage", t)}
+          onValueChange={(t) =>
+            onItemUpdate("numberOfMessage", t.replace(/\D/g, "")?.slice(0, 5))
+          }
         />
 
         <CustomInput

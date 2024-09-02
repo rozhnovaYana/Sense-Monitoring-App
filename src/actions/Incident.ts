@@ -69,13 +69,15 @@ export const saveIncident = async (
     }
     // SLA checker for 11 mins
     const timeFormat = "HH:mm:ss";
-    const diffMinutes =
-      typeof timeSend === "string" &&
-      typeof timeRequest === "string" &&
-      moment(timeSend, timeFormat).diff(
-        moment(timeRequest, timeFormat),
-        "minutes"
-      );
+
+    const requestTime = moment(timeRequest, timeFormat);
+    const sendTime = moment(timeSend, timeFormat);
+
+    if (sendTime.isBefore(requestTime)) {
+      sendTime.add(1, "day");
+    }
+    const diffMinutes = sendTime.diff(requestTime, "minutes");
+
     const isSLA = +diffMinutes <= 11;
 
     const date = moment(startDate).format("YYYY MM DD");
