@@ -1,4 +1,7 @@
-VERSION 1.0.0
+VERSION 1.0.1
+
+Changes:
+1. updated fonts
 
 For build
 
