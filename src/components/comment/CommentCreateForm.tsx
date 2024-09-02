@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useFormState } from "react-dom";
 
 import CustomInput from "@/components/UI/Input";
@@ -18,11 +18,20 @@ const CommentCreateForm = ({ id }: CommentCreateFormProps) => {
     errors: {},
     isSuccess: false,
   });
+  const createCommentRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    if (formState.isSuccess) {
+      createCommentRef.current?.reset();
+    }
+  }, [formState.isSuccess]);
 
   return (
-    <form className="mt-6" action={action}>
+    <form className="mt-6" action={action} ref={createCommentRef}>
       <CustomInput
         isClearable={false}
+        isInvalid={!!formState.errors.content}
+        errorMessage={formState.errors.content}
         placeholder="Коментувати"
         name="content"
         variant="bordered"

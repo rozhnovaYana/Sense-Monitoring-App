@@ -73,7 +73,9 @@ const DiscussCard = ({
   };
 
   useEffect(() => {
-    Object.keys(formState.errors).length === 0 && setEditState((s) => !s);
+    if (formState.isSuccess) {
+      setEditState((s) => !s);
+    }
   }, [formState]);
 
   return (
