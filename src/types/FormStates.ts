@@ -7,14 +7,15 @@ export type createDiscussState = {
 };
 
 export type createIncidentState = {
-  error?: string;
-  message?: string;
-  timeRequest?: string;
-  timeSend?: string;
-  reporter?: string;
-  numberOfIncident?: string;
-  startDate?: string;
-  success: boolean;
+  errors: {
+    timeRequest?: string[];
+    timeSend?: string[];
+    reporter?: string[];
+    numberOfIncident?: string;
+    startDate?: string;
+    _form?: string;
+  };
+  isSuccess?: boolean;
 };
 export type createUserState = {
   errors: {

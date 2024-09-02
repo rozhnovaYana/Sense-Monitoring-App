@@ -6,12 +6,9 @@ export const UserSchema = z.object({
 });
 
 export const IncidentSchema = z.object({
-  message: z.string().trim().min(3),
   timeRequest: z.string().trim().min(3),
   timeSend: z.string().trim().min(3),
   reporter: z.string().trim().min(3),
-  numberOfIncident: z.string().trim().min(3),
-  startDate: z.string().trim().min(3),
 });
 
 export const PostSchema = z.object({

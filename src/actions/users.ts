@@ -5,7 +5,7 @@ import { db } from "@/db";
 import { UserLoginSchema, UserSchema } from "./schema";
 import { revalidatePath } from "next/cache";
 import { createUserState } from "@/types/FormStates";
-
+import messages from "@/locales/ua.json";
 export const createUser = async (
   actionName: string,
   state: createUserState,
@@ -17,7 +17,7 @@ export const createUser = async (
   if (!userId) {
     return {
       errors: {
-        _form: "Ви маєте спочатку зареєструватись у системі.",
+        _form: messages.access_denied,
       },
     };
   }
@@ -62,7 +62,7 @@ export const createUser = async (
   } catch {
     return {
       errors: {
-        _form: "Щось пішло не так, будь ласка, спробуйте пізніше.",
+        _form: messages.common_issue,
       },
     };
   }
@@ -80,7 +80,6 @@ export const deleteUser = async (id: string) => {
     const user = await db.user.delete({
       where: { id },
     });
-    console.log(user);
   } catch {}
   revalidatePath("/users");
 };

@@ -5,7 +5,7 @@ import { db } from "@/db";
 import { PostSchema } from "@/actions//schema";
 import { revalidatePath } from "next/cache";
 import { createDiscussState } from "@/types/FormStates";
-
+import messages from "@/locales/ua.json";
 export const createPost = async (
   state: createDiscussState,
   formData: FormData
@@ -16,7 +16,7 @@ export const createPost = async (
   if (!userId) {
     return {
       errors: {
-        _form: "Ви маєте спочатку зареєструватись у системі.",
+        _form: messages.access_denied,
       },
     };
   }
@@ -43,7 +43,7 @@ export const createPost = async (
   } catch {
     return {
       errors: {
-        _form: "Щось пішло не так, будь ласка, спробуйте пізніше.",
+        _form: messages.common_issue,
       },
     };
   }

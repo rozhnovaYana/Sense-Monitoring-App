@@ -12,12 +12,12 @@ const MailingForm = forwardRef<HTMLFormElement, MailingFormProps>(
   function MailingForm({ numberOfIncident, startDate }, ref) {
     const [state, formAction] = useFormState(
       saveIncident.bind(null, numberOfIncident, startDate),
-      { success: false }
+      { isSuccess: false, errors: {} }
     );
 
     useEffect(() => {
-      if (state.success && state.message) {
-        toast.success(state.message);
+      if (state.isSuccess) {
+        toast.success("Інцидент був успішно збережений.");
       }
     }, [state]);
 
@@ -36,7 +36,7 @@ const MailingForm = forwardRef<HTMLFormElement, MailingFormProps>(
             isRequired
             hourCycle={24}
             className="w-60"
-            isInvalid={!!state.timeRequest}
+            isInvalid={!!state.errors?.timeRequest}
             variant="bordered"
           />
 
@@ -46,14 +46,14 @@ const MailingForm = forwardRef<HTMLFormElement, MailingFormProps>(
             isRequired
             hourCycle={24}
             className="w-60"
-            isInvalid={!!state.timeSend}
+            isInvalid={!!state.errors?.timeSend}
             variant="bordered"
           />
           <Input
             name="reporter"
             isRequired
             label="Репортер"
-            isInvalid={!!state.reporter}
+            isInvalid={!!state.errors?.reporter}
             variant="bordered"
             isClearable
           />
@@ -61,7 +61,7 @@ const MailingForm = forwardRef<HTMLFormElement, MailingFormProps>(
           <SaveButton />
         </div>
         <span className="text-danger mt-5">
-          {!!state.numberOfIncident && state.numberOfIncident}
+          {!!state.errors?.numberOfIncident && state.errors?.numberOfIncident}
         </span>
       </form>
     );

@@ -22,7 +22,7 @@ import {
   Chip,
 } from "@nextui-org/react";
 
-import { getIncidents } from "@/actions/Incident";
+import { getIncidents } from "@/db/queries/incidents";
 import { Incident } from "@/types/Incident";
 import { analyticsFileds, sortDescriptors } from "@/data/analytics";
 import { FaSortDown } from "react-icons/fa";

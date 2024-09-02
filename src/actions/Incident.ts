@@ -1,97 +1,75 @@
 "use server";
 
-import { auth } from "@/auth";
 import moment from "moment";
+
+import { auth } from "@/auth";
 import { db } from "@/db";
-import { Incident } from "@/types/Incident";
 
-export type FormState = {
-  error?: string;
-  message?: string;
-  timeRequest?: string;
-  timeSend?: string;
-  reporter?: string;
-  numberOfIncident?: string;
-  startDate?: string;
-  success: boolean;
-};
+import { createIncidentState } from "@/types/FormStates";
 
-export const getIncidents = async (): Promise<Incident[]> => {
-  const incidents = await db.incident.findMany({
-    orderBy: {
-      id: "desc",
-    },
-    include: {
-      user: true,
-    },
-  });
-  return incidents;
-};
+import messages from "@/locales/ua.json";
+import { IncidentSchema } from "./schema";
 
 export const saveIncident = async (
   numberOfIncident: string,
   startDate: Date,
-  prevState: FormState,
+  prevState: createIncidentState,
   formdata: FormData
-): Promise<FormState> => {
+): Promise<createIncidentState> => {
   const session = await auth();
-  try {
-    // get data from FormData
-    const reporter = formdata.get("reporter") as string;
-    const timeRequest = formdata.get("timeRequest") as string;
-    const timeSend = formdata.get("timeSend") as string;
-    const userId = session?.user?.id;
+  const userId = session?.user?.id;
 
-    // check if user exists and formDate is filled
-    if (!userId) {
-      return {
-        success: false,
-        message: "Лише залогінені користувачі можуть виконувати цю дію.",
-      };
-    }
-    if (
-      !reporter ||
-      !timeRequest ||
-      !numberOfIncident ||
-      !startDate ||
-      !timeSend
-    ) {
-      return {
-        reporter: !reporter ? "Введіть репортера" : undefined,
-        timeRequest: !timeRequest ? "Заповніть поле" : undefined,
-        timeSend: !timeSend ? "Заповніть поле" : undefined,
-        numberOfIncident: !numberOfIncident
-          ? "Введіть номер інциденту"
-          : undefined,
-        startDate: !startDate ? "Введіть час початку інциденту" : undefined,
-        success: false,
-      };
-    }
-    // SLA checker for 11 mins
-    const timeFormat = "HH:mm:ss";
-
-    const requestTime = moment(timeRequest, timeFormat);
-    const sendTime = moment(timeSend, timeFormat);
-
-    if (sendTime.isBefore(requestTime)) {
-      sendTime.add(1, "day");
-    }
-    const diffMinutes = sendTime.diff(requestTime, "minutes");
-
-    const isSLA = +diffMinutes <= 11;
-
-    const date = moment(startDate).format("YYYY MM DD");
-
-    const incident = {
-      numberOfIncident,
-      timeRequest,
-      timeSend,
-      reporter,
-      userId,
-      startDate: date,
-      isSLA,
+  // check if user exists and formDate is filled
+  if (!userId) {
+    return {
+      errors: {
+        _form: messages.access_denied,
+      },
     };
+  }
+  // get data from FormData
+  const reporter = formdata.get("reporter") as string;
+  const timeRequest = formdata.get("timeRequest") as string;
+  const timeSend = formdata.get("timeSend") as string;
+  if (!numberOfIncident) {
+    return {
+      errors: {
+        numberOfIncident: "Ви повинні вказати номер інциденту.",
+      },
+    };
+  }
+  const data = {
+    reporter,
+    timeRequest,
+    timeSend,
+  };
+  const validatedData = IncidentSchema.safeParse(data);
+  if (!validatedData.success) {
+    return { errors: validatedData.error.flatten().fieldErrors };
+  }
+  // SLA checker for 11 mins
+  const timeFormat = "HH:mm:ss";
 
+  const requestTime = moment(timeRequest, timeFormat);
+  const sendTime = moment(timeSend, timeFormat);
+
+  if (sendTime.isBefore(requestTime)) {
+    sendTime.add(1, "day");
+  }
+
+  const diffMinutes = sendTime.diff(requestTime, "minutes");
+  const isSLA = +diffMinutes <= 11;
+
+  const date = moment(startDate).format("YYYY MM DD");
+
+  const incident = {
+    ...validatedData.data,
+    numberOfIncident,
+    userId,
+    startDate: date,
+    isSLA,
+  };
+  try {
     await db.incident.upsert({
       where: {
         numberOfIncident,
@@ -101,14 +79,14 @@ export const saveIncident = async (
     });
 
     return {
-      message: `Інцидент ${numberOfIncident} був успішно збережений.`,
-      success: true,
+      isSuccess: true,
+      errors: {},
     };
   } catch (err) {
-    console.log(err);
     return {
-      error: err instanceof Error ? err.message : "Something went wrong",
-      success: false,
+      errors: {
+        _form: messages.common_issue,
+      },
     };
   }
 };
