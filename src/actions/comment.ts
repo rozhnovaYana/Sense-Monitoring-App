@@ -7,7 +7,10 @@ import { PostSchema } from "@/actions/schema";
 import { auth } from "@/auth";
 import { db } from "@/db";
 
+import messages from "@/locales/ua.json";
+
 import { createDiscussState } from "@/types/FormStates";
+import { DeleteState } from "@/types/ActionState";
 
 export const createComment = async (
   state: createDiscussState,
@@ -16,22 +19,21 @@ export const createComment = async (
   const session = await auth();
   const userId = session?.user?.id;
 
-  if (!userId) {
+  if (!userId)
     return {
       errors: {
-        _form: "Тільки зареєстровані користувачі можуть додавати коментарі.",
+        _form: messages.access_denied,
       },
     };
-  }
 
   const post = {
     content: formData.get("content") || "",
   };
 
+  const validatedData = PostSchema.safeParse(post);
+
   const commentID = (formData.get("id") || "") as string;
   const postId = (formData.get("postId") || "") as string;
-
-  const validatedData = PostSchema.safeParse(post);
 
   if (!validatedData.success) {
     return { errors: validatedData.error.flatten().fieldErrors };
@@ -48,25 +50,37 @@ export const createComment = async (
   } catch {
     return {
       errors: {
-        _form: "Щось пішло не так, будь ласка, спробуйте пізніше.",
+        _form: messages.common_issue,
       },
     };
   }
+
   revalidatePath("/posts");
   return { errors: {}, isSuccess: true };
 };
 
-export const deleteComment = async (id: string) => {
+export const deleteComment = async (id: string): Promise<DeleteState> => {
   const session = await auth();
   const userId = session?.user?.id;
 
-  if (!userId) return;
+  if (!userId) {
+    return {
+      error: messages.access_denied,
+    };
+  }
 
   try {
     await db.comment.delete({
       where: { id },
     });
-  } catch {}
+  } catch {
+    return {
+      error: messages.common_issue,
+    };
+  }
 
   revalidatePath("/posts");
+  return {
+    isSuccess: true,
+  };
 };

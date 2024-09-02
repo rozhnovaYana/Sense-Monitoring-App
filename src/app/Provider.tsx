@@ -1,7 +1,6 @@
 "use client";
 
 import React, { ReactNode } from "react";
-
 import { I18nProvider } from "@react-aria/i18n";
 import { NextUIProvider, ScrollShadow } from "@nextui-org/react";
 import { SessionProvider } from "next-auth/react";

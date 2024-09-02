@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 import { Textarea } from "@nextui-org/react";
+import { toast } from "react-toastify";
 
 import ConfirmModal from "@/components/UI/ConfirmModal";
 import ButtonUI from "@/components/UI/Button";
@@ -10,6 +11,9 @@ import { DeleteIcon, EditIcon, SaveIcon } from "@/components/icons/Icons";
 
 import { useDateFormatter } from "@/hooks/useDateFormatter";
 import { createDiscussState } from "@/types/FormStates";
+import { DeleteState } from "@/types/ActionState";
+
+import locales from "@/locales/ua.json";
 
 type DiscussCardProps = {
   content: string;
@@ -21,7 +25,7 @@ type DiscussCardProps = {
     state: createDiscussState,
     formData: FormData
   ) => Promise<createDiscussState>;
-  onDeleteItem: (id: string) => void;
+  onDeleteItem: (id: string) => Promise<DeleteState>;
   className?: string;
   postId?: string;
 };
@@ -55,6 +59,19 @@ const DiscussCard = ({
     }
   };
 
+  const onDelete = async () => {
+    try {
+      const data = await onDeleteItem(id);
+      if (data.isSuccess && !data.error) {
+        toast.success("Коментар було видалено.");
+      } else {
+        toast.error(data.error);
+      }
+    } catch {
+      toast.error(locales.common_issue);
+    }
+  };
+
   useEffect(() => {
     Object.keys(formState.errors).length === 0 && setEditState((s) => !s);
   }, [formState]);
@@ -75,7 +92,7 @@ const DiscussCard = ({
               <ConfirmModal
                 headerText="Видалити повідомлення?"
                 confirmButtonText="Так"
-                onSave={() => onDeleteItem(id)}
+                onSave={onDelete}
                 triggerIcon={<DeleteIcon />}
                 color="danger"
                 variant="light"
