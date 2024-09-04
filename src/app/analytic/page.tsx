@@ -47,6 +47,7 @@ export default function AnalyticsPage() {
     (async () => {
       try {
         const incidents = await getIncidents();
+        console.log(incidents)
         setItems(incidents);
       } catch (err) {
       } finally {

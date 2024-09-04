@@ -4,7 +4,7 @@ import { RadioGroup, Radio, cn } from "@nextui-org/react";
 import { FormState } from "@/types/Form";
 import { levels } from "@/data/formdata";
 
-const LevelSelector = ({
+const IncidentLevelSelector = ({
   value,
   onItemUpdate,
 }: {
@@ -32,4 +32,4 @@ const LevelSelector = ({
   );
 };
 
-export default LevelSelector;
+export default IncidentLevelSelector;

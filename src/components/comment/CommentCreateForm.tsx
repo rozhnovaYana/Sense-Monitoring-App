@@ -24,7 +24,7 @@ const CommentCreateForm = ({ id }: CommentCreateFormProps) => {
     if (formState.isSuccess) {
       createCommentRef.current?.reset();
     }
-  }, [formState.isSuccess]);
+  }, [formState]);
 
   return (
     <form className="mt-6" action={action} ref={createCommentRef}>

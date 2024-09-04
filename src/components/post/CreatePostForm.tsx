@@ -17,7 +17,7 @@ const CreatePostForm = () => {
   });
   useEffect(() => {
     formState.isSuccess && ref.current?.reset();
-  }, [formState.isSuccess]);
+  }, [formState]);
 
   return (
     <form ref={ref} action={action}>

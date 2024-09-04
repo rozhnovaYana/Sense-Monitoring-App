@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 
 import { auth } from "@/auth";
 
-const protectedRoutes = ["/messages", "/analytic", "/", "/admin"];
+const protectedRoutes = ["/incidents", "/analytic", "/", "/admin", "/posts"];
 
 export default async function middleware(request: NextRequest) {
   const session = await auth();

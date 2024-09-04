@@ -6,6 +6,7 @@ import { PostSchema } from "@/actions//schema";
 import { revalidatePath } from "next/cache";
 import { createDiscussState } from "@/types/FormStates";
 import messages from "@/locales/ua.json";
+import { DeleteState } from "@/types/ActionState";
 export const createPost = async (
   state: createDiscussState,
   formData: FormData
@@ -50,15 +51,26 @@ export const createPost = async (
   revalidatePath("/posts");
   return { errors: {}, isSuccess: true };
 };
-export const deletePost = async (id: string) => {
+export const deletePost = async (id: string): Promise<DeleteState> => {
   const session = await auth();
   const userId = session?.user?.id;
 
-  if (!userId) return;
+  if (!userId) {
+    return {
+      error: messages.access_denied,
+    };
+  }
   try {
     const post = await db.post.delete({
       where: { id },
     });
-  } catch {}
+  } catch {
+    return {
+      error: messages.common_issue,
+    };
+  }
   revalidatePath("/posts");
+  return {
+    isSuccess: true,
+  };
 };

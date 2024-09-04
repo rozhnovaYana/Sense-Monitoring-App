@@ -1,20 +1,19 @@
 import React, { Dispatch, SetStateAction } from "react";
 import { Checkbox, DateValue, Textarea } from "@nextui-org/react";
+import moment from "moment";
 
-import LevelSelector from "@/components/form/LevelSelector";
+import IncidentLevelSelector from "@/components/incident/IncidentLevelSelector";
 import DatePickerCustom from "@/components/UI/DatePicker";
-
 import CustomInput from "@/components/UI/Input";
+
 import { FormState } from "@/types/Form";
+
 import {
   convertISOToZonned,
   convertZonnedToDate,
-  getTimeDifference,
 } from "@/utils/dateHelpers";
-import { useDateFormatter } from "@/hooks/useDateFormatter";
-import moment from "moment";
 
-const Form = ({
+const IncidentForm = ({
   formState: {
     level,
     theme,
@@ -47,7 +46,7 @@ const Form = ({
 
   return (
     <form className="grid gap-5" suppressHydrationWarning>
-      <LevelSelector value={level} onItemUpdate={onItemUpdate} />
+      <IncidentLevelSelector value={level} onItemUpdate={onItemUpdate} />
       <Textarea
         label="Тема"
         placeholder="Тема повідомлення"
@@ -109,4 +108,4 @@ const Form = ({
   );
 };
 
-export default Form;
+export default IncidentForm;

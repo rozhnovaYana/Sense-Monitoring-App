@@ -15,7 +15,7 @@ const NavigationOptions = ({ user }: NavigationOptionsProps) => {
   const pathname = usePathname();
   const links = [
     { title: "Головна", path: "/posts" },
-    { title: "Розсилка", path: "/messages" },
+    { title: "Розсилка", path: "/incidents" },
     { title: "Аналітика", path: "/analytic" },
   ];
 

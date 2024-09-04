@@ -114,7 +114,7 @@ const DiscussCard = ({
         </div>
         <div className="flex flex-row justify-between w-full">
           {!editState ? (
-            <span className="flex-grow text-left">{content}</span>
+            <span className="flex-grow text-left whitespace-pre-wrap">{content}</span>
           ) : (
             <>
               <Textarea

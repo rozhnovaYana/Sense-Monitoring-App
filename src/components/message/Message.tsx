@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { FormState } from "@/types/Form";
 
 import { FaCopy, FaRegCopy, FaSave } from "react-icons/fa";
@@ -10,6 +10,7 @@ import { saveMessage } from "@/actions/messages";
 import { useDateFormatter } from "@/hooks/useDateFormatter";
 import ConfirmModal from "@/components/UI/ConfirmModal";
 import IconButton from "@/components/UI/IconButton";
+import { toast } from "react-toastify";
 
 type MessageProps = {
   formState: FormState;
@@ -30,23 +31,23 @@ const Message = ({ formState }: MessageProps) => {
   const node = useRef<HTMLDivElement>(null);
   const [isCopied, setCopied] = useState(false);
 
-  const levelColor = levels.find((l) => l.text === level)?.color;
-
   let formatter = useDateFormatter();
   const convertData = (data: Date) => formatter.format(data);
 
   const timeDifference = endDate && getTimeDifference(startDate, endDate);
 
-  useEffect(() => {
-    setCopied(false);
-  }, [formState]);
-
   const onCopyText = async () => {
     if (node.current) {
       setCopied(false);
-      const content = node.current.innerText;
-      await navigator.clipboard.writeText(content);
-      setCopied(true);
+      if (navigator.clipboard) {
+        const content = node.current.innerText;
+        await navigator.clipboard.writeText(content);
+        setCopied(true);
+      } else {
+        toast.error(
+          "На жаль, налаштування вашого браузера не дозволяють виконати цю дію."
+        );
+      }
     }
   };
 
@@ -60,11 +61,18 @@ const Message = ({ formState }: MessageProps) => {
   };
 
   return (
-    <div>
+    <>
       <div ref={node} style={{ whiteSpace: "pre-wrap" }}>
         <div>
           Рівень впливу:
-          <span className={`text-${levelColor} capitalize`}> {level}</span>{" "}
+          <span
+            className={`text-${
+              levels.find((l) => l.text === level)?.color
+            } capitalize`}
+          >
+            {" "}
+            {level}
+          </span>{" "}
         </div>
         <div>Шановні Колеги!</div>
         <div>{theme}</div>
@@ -95,7 +103,7 @@ const Message = ({ formState }: MessageProps) => {
           variant="ghost"
           className="mt-4"
         >
-          {isCopied ? <FaCopy color="#c8ebad" /> : <FaRegCopy />}
+          {isCopied ? <FaCopy color="primary" /> : <FaRegCopy />}
         </IconButton>
         <ConfirmModal
           color="success"
@@ -107,7 +115,7 @@ const Message = ({ formState }: MessageProps) => {
           variant="ghost"
         />
       </div>
-    </div>
+    </>
   );
 };
 

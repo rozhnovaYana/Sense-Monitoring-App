@@ -39,12 +39,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return {};
         }
 
-        // // remove the next line for the production
-        // return { ...data.user };
+        // remove the next line for the production
+        return { ...data.user };
 
         const client = ldap.createClient({
           url: process.env.LDAP_URI || "",
         });
+        let entryExist = false;
 
         return new Promise((resolve, reject) => {
           client.bind(
@@ -57,7 +58,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 const opts: ldap.SearchOptions = {
                   filter: `(&(SamAccountName=${name}))`,
                   scope: "sub",
-                  attributes: ["dn", "sn", "cn"],
+                  attributes: ["dn", "sn", "cn", "SamAccountName"],
                 };
 
                 client.search(
@@ -67,10 +68,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                     if (err) {
                       reject(`User ${name} LDAP search error`);
                     } else {
-                      res.on("searchRequest", (searchRequest) => {
-                        console.log("searchRequest: ", searchRequest.messageID);
-                      });
+                      console.log("not error");
                       res.on("searchEntry", (entry) => {
+                        console.log("inside search entry");
+                        console.log(entry.pojo);
+                        entryExist = true;
                         const cn = entry?.pojo?.attributes?.find(
                           (el) => el?.type === "cn"
                         )?.values;
@@ -78,6 +80,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                           /CN=[^,]+/,
                           `CN=${cn}`
                         );
+
                         client.bind(dn, password, (err, res) => {
                           if (err) {
                             reject(`User ${name} username or password problem`);
@@ -94,7 +97,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                       res.on("error", (err) => {
                         reject("LDAP SEARCH error");
                       });
-                      res.on("end", (result) => {});
+                      res.on("end", (result) => {
+                        if (!entryExist) {
+                          reject("User is not found");
+                        }
+                      });
                     }
                   }
                 );

@@ -1,7 +1,3 @@
-import { Suspense } from "react";
-
-import CardsGrid from "@/components/cards/CardsGrid";
-import CardSkeleton from "@/components/cards/CardSkeleton";
 import MessagesGenerator from "@/components/message/MessageGenerator";
 
 import { getMessagesByTerm } from "@/db/queries/messages";

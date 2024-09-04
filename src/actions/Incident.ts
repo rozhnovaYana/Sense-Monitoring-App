@@ -6,9 +6,9 @@ import { auth } from "@/auth";
 import { db } from "@/db";
 
 import { createIncidentState } from "@/types/FormStates";
+import { IncidentSchema } from "@/actions/schema";
 
 import messages from "@/locales/ua.json";
-import { IncidentSchema } from "./schema";
 
 export const saveIncident = async (
   numberOfIncident: string,

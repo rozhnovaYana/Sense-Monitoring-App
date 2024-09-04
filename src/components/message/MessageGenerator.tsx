@@ -1,15 +1,16 @@
 "use client";
+
+import { useRef, useState } from "react";
 import { Button, Divider } from "@nextui-org/react";
 
-import Form from "@/components/form/Form";
+import IncidentForm from "@/components/incident/IncidentForm";
 import Message from "@/components/message/Message";
 import SearchMessage from "@/components/message/Search";
 import MailingForm from "@/components/mailing/MailingForm";
+import CardsGrid from "@/components/cards/CardsGrid";
 
 import { FormDataInitialState } from "@/data/formdata";
 import { FormStateDB, type FormState } from "@/types/Form";
-import { ReactNode, useRef, useState } from "react";
-import CardsGrid from "../cards/CardsGrid";
 
 export default function MessagesGenerator({
   messages,
@@ -37,7 +38,7 @@ export default function MessagesGenerator({
         >
           Очистити
         </Button>
-        <Form formState={formState} updateFormState={updateFormState} />
+        <IncidentForm formState={formState} updateFormState={updateFormState} />
         <Divider className="mt-10" />
         {formState.numberOfMessage === "1" &&
           formState.level != "information" && (
