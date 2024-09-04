@@ -1,7 +1,7 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FormState } from "@/types/Form";
 
-import { FaCopy, FaRegCopy, FaSave } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 import { levels } from "@/data/formdata";
 import { getTimeDifference } from "@/utils/dateHelpers";
@@ -10,7 +10,13 @@ import { saveMessage } from "@/actions/messages";
 import { useDateFormatter } from "@/hooks/useDateFormatter";
 import ConfirmModal from "@/components/UI/ConfirmModal";
 import IconButton from "@/components/UI/IconButton";
-import { toast } from "react-toastify";
+import {
+  EditIcon,
+  SaveIcon,
+  CopyIcon,
+  CopyMdIcon,
+} from "@/components/icons/Icons";
+import { getIncidentByNumber } from "@/db/queries/incidents";
 
 type MessageProps = {
   formState: FormState;
@@ -30,11 +36,20 @@ const Message = ({ formState }: MessageProps) => {
   } = formState;
   const node = useRef<HTMLDivElement>(null);
   const [isCopied, setCopied] = useState(false);
+  const [isIncidentExist, setIncidentExist] = useState(false);
 
   let formatter = useDateFormatter();
   const convertData = (data: Date) => formatter.format(data);
 
   const timeDifference = endDate && getTimeDifference(startDate, endDate);
+
+  useEffect(() => {
+    if (numberOfIncident?.trim() === "") setIncidentExist(false);
+    (async () => {
+      const inc = await getIncidentByNumber(numberOfIncident);
+      inc ? setIncidentExist(true) : setIncidentExist(false);
+    })();
+  }, [numberOfIncident]);
 
   const onCopyText = async () => {
     if (node.current) {
@@ -57,7 +72,11 @@ const Message = ({ formState }: MessageProps) => {
       startDate: convertData(startDate),
       endDate: endDate && convertData(endDate),
     };
-    await saveMessage(newMessage);
+    const data = await saveMessage(newMessage);
+
+    data.isSuccess && !data.error
+      ? toast.success("Повідомлення успішно збережено.")
+      : toast.error(data.error);
   };
 
   return (
@@ -103,17 +122,21 @@ const Message = ({ formState }: MessageProps) => {
           variant="ghost"
           className="mt-4"
         >
-          {isCopied ? <FaCopy color="primary" /> : <FaRegCopy />}
+          {isCopied ? <CopyIcon /> : <CopyMdIcon />}
         </IconButton>
         <ConfirmModal
           color="success"
-          triggerIcon={<FaSave />}
+          triggerIcon={isIncidentExist ? <EditIcon /> : <SaveIcon />}
           className="mt-4 items-center"
           headerText="Зберегти повідомлення?"
           onSave={onSave}
           type="submit"
           variant="ghost"
         />
+      </div>
+      <div className="text-sm text-danger mt-2">
+        {isIncidentExist &&
+          "Такий номер інциденту вже існує, тому при повторному збереженні дані будуть перезаписані."}
       </div>
     </>
   );

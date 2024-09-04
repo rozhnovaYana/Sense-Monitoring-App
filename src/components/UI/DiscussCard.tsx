@@ -11,7 +11,7 @@ import { DeleteIcon, EditIcon, SaveIcon } from "@/components/icons/Icons";
 
 import { useDateFormatter } from "@/hooks/useDateFormatter";
 import { createDiscussState } from "@/types/FormStates";
-import { DeleteState } from "@/types/ActionState";
+import { ActionState } from "@/types/ActionState";
 
 import locales from "@/locales/ua.json";
 
@@ -25,7 +25,7 @@ type DiscussCardProps = {
     state: createDiscussState,
     formData: FormData
   ) => Promise<createDiscussState>;
-  onDeleteItem: (id: string) => Promise<DeleteState>;
+  onDeleteItem: (id: string) => Promise<ActionState>;
   className?: string;
   postId?: string;
 };
@@ -114,7 +114,9 @@ const DiscussCard = ({
         </div>
         <div className="flex flex-row justify-between w-full">
           {!editState ? (
-            <span className="flex-grow text-left whitespace-pre-wrap">{content}</span>
+            <span className="flex-grow text-left whitespace-pre-wrap">
+              {content}
+            </span>
           ) : (
             <>
               <Textarea

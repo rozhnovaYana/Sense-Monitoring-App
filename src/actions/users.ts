@@ -1,11 +1,12 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { db } from "@/db";
-import { UserLoginSchema, UserSchema } from "./schema";
-import { revalidatePath } from "next/cache";
+import { UserLoginSchema } from "@/actions/schema";
 import { createUserState } from "@/types/FormStates";
 import messages from "@/locales/ua.json";
+
 export const createUser = async (
   actionName: string,
   state: createUserState,
@@ -22,6 +23,7 @@ export const createUser = async (
     };
   }
   const role = session?.user?.role;
+
   if (role !== "ADMIN") {
     return {
       errors: {
@@ -74,12 +76,22 @@ export const createUser = async (
 export const deleteUser = async (id: string) => {
   const session = await auth();
   const userId = session?.user?.id;
-  if (!userId) return;
+  if (!userId)
+    return {
+      error: messages.access_denied,
+    };
 
   try {
-    const user = await db.user.delete({
+    await db.user.delete({
       where: { id },
     });
-  } catch {}
+  } catch {
+    return {
+      error: messages.common_issue,
+    };
+  }
   revalidatePath("/users");
+  return {
+    isSuccess: true,
+  };
 };

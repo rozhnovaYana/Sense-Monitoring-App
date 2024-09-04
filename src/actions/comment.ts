@@ -10,7 +10,7 @@ import { db } from "@/db";
 import messages from "@/locales/ua.json";
 
 import { createDiscussState } from "@/types/FormStates";
-import { DeleteState } from "@/types/ActionState";
+import { ActionState } from "@/types/ActionState";
 
 export const createComment = async (
   state: createDiscussState,
@@ -59,7 +59,7 @@ export const createComment = async (
   return { errors: {}, isSuccess: true };
 };
 
-export const deleteComment = async (id: string): Promise<DeleteState> => {
+export const deleteComment = async (id: string): Promise<ActionState> => {
   const session = await auth();
   const userId = session?.user?.id;
 

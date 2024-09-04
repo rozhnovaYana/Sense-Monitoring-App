@@ -1,17 +1,36 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { FormStateDB } from "@/types/Form";
 import { db } from "@/db";
-import { revalidatePath } from "next/cache";
+import { ActionState } from "@/types/ActionState";
+import { auth } from "@/auth";
+import msgs from "@/locales/ua.json";
 
-export const saveMessage = async (data: FormStateDB) => {
+export const saveMessage = async (data: FormStateDB): Promise<ActionState> => {
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  // check if user exists and formDate is filled
+  if (!userId) {
+    return {
+      error: msgs.access_denied,
+    };
+  }
   try {
     await db.message.upsert({
       where: { numberOfIncident: data.numberOfIncident },
       create: { ...data },
       update: { ...data },
     });
-  } catch (err) {}
+  } catch (err) {
+    return {
+      error: msgs.common_issue,
+    };
+  }
 
   revalidatePath("/incidents");
+  return {
+    isSuccess: true,
+  };
 };

@@ -1,6 +1,6 @@
 "use server";
 
-import { AuthError, CredentialsSignin } from "next-auth";
+import { AuthError } from "next-auth";
 import { isRedirectError } from "next/dist/client/components/redirect";
 import { signIn } from "@/auth";
 import { UserSchema } from "@/actions/schema";

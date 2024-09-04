@@ -17,6 +17,7 @@ import { DeleteIcon, EditIcon } from "@/components/icons/Icons";
 
 import { sortDescriptors, userFields } from "@/data/user";
 import { deleteUser } from "@/actions/users";
+import { toast } from "react-toastify";
 
 type UsersListProps = {
   users: UserType[];
@@ -24,6 +25,12 @@ type UsersListProps = {
 
 const UsersList = ({ users }: UsersListProps) => {
   const renderCell = useCallback((user: UserType, columnKey: Key) => {
+    const deleteUserHandler = async () => {
+      const data = await deleteUser(user?.id);
+      data?.isSuccess && !data.error
+        ? toast.success("Користувача було видалено")
+        : toast.error(data.error);
+    };
     switch (columnKey) {
       case "actions":
         return (
@@ -33,7 +40,7 @@ const UsersList = ({ users }: UsersListProps) => {
                 triggerIcon={<DeleteIcon />}
                 className="text-lg text-danger cursor-pointer active:opacity-50"
                 headerText={`Ви впевнені, що хочете видалити користувача ${user.login}?`}
-                onSave={() => deleteUser(user.id)}
+                onSave={deleteUserHandler}
                 type="submit"
                 confirmButtonText="Видалити"
               />

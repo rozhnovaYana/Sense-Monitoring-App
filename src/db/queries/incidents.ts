@@ -11,3 +11,8 @@ export const getIncidents = async () => {
     },
   });
 };
+export const getIncidentByNumber = async (numberOfIncident: string) => {
+  return await db.incident.findUnique({
+    where: { numberOfIncident },
+  });
+};

@@ -1,12 +1,13 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { db } from "@/db";
 import { PostSchema } from "@/actions//schema";
-import { revalidatePath } from "next/cache";
 import { createDiscussState } from "@/types/FormStates";
+import { ActionState } from "@/types/ActionState";
 import messages from "@/locales/ua.json";
-import { DeleteState } from "@/types/ActionState";
+
 export const createPost = async (
   state: createDiscussState,
   formData: FormData
@@ -51,7 +52,8 @@ export const createPost = async (
   revalidatePath("/posts");
   return { errors: {}, isSuccess: true };
 };
-export const deletePost = async (id: string): Promise<DeleteState> => {
+
+export const deletePost = async (id: string): Promise<ActionState> => {
   const session = await auth();
   const userId = session?.user?.id;
 

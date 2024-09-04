@@ -1,4 +1,4 @@
-export type DeleteState = {
+export type ActionState = {
   error?: string;
   isSuccess?: boolean;
 };

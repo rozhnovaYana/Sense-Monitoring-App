@@ -8,10 +8,7 @@ import CustomInput from "@/components/UI/Input";
 
 import { FormState } from "@/types/Form";
 
-import {
-  convertISOToZonned,
-  convertZonnedToDate,
-} from "@/utils/dateHelpers";
+import { convertISOToZonned, convertZonnedToDate } from "@/utils/dateHelpers";
 
 const IncidentForm = ({
   formState: {
@@ -84,8 +81,7 @@ const IncidentForm = ({
           onItemUpdate={(v: DateValue) =>
             onItemUpdate("endDate", convertZonnedToDate(v))
           }
-          isInvalid={dateEnd?.isBefore(dateStart)}
-          errorMessage="Дата закінчення має бути більшою за дату початку!"
+          minValue={convertISOToZonned(startDate)}
         />
       </div>
       <div className="grid grid-cols-2 gap-2">
