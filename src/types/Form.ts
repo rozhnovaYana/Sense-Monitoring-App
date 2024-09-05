@@ -15,7 +15,3 @@ export interface FormState {
   numberOfIncident: string;
   timeOfRequest?: Date;
 }
-export interface FormStateDB extends Omit<FormState, "startDate" | "endDate"> {
-  startDate: string;
-  endDate?: string | null;
-}

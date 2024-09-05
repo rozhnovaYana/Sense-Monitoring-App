@@ -10,12 +10,12 @@ import MailingForm from "@/components/mailing/MailingForm";
 import CardsGrid from "@/components/cards/CardsGrid";
 
 import { FormDataInitialState } from "@/data/formdata";
-import { FormStateDB, type FormState } from "@/types/Form";
+import { type FormState } from "@/types/Form";
 
 export default function MessagesGenerator({
   messages,
 }: {
-  messages: FormStateDB[];
+  messages: FormState[];
 }) {
   const [formState, updateFormState] =
     useState<FormState>(FormDataInitialState);

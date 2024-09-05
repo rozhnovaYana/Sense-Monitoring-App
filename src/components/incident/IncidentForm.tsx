@@ -36,10 +36,6 @@ const IncidentForm = ({
       [field]: value,
     }));
   };
-  const timeFormat = "DD:MM:YY HH:mm:ss";
-
-  const dateStart = startDate && moment(startDate, timeFormat);
-  const dateEnd = endDate && moment(endDate, timeFormat);
 
   return (
     <form className="grid gap-5" suppressHydrationWarning>

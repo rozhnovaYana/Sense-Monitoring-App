@@ -1,13 +1,13 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { FormStateDB } from "@/types/Form";
+import { FormState } from "@/types/Form";
 import { db } from "@/db";
 import { ActionState } from "@/types/ActionState";
 import { auth } from "@/auth";
 import msgs from "@/locales/ua.json";
 
-export const saveMessage = async (data: FormStateDB): Promise<ActionState> => {
+export const saveMessage = async (data: FormState): Promise<ActionState> => {
   const session = await auth();
   const userId = session?.user?.id;
 

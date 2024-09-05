@@ -1,12 +1,19 @@
 import { levels } from "@/data/formdata";
-import { FormStateDB } from "@/types/Form";
-import { Card, CardBody } from "@nextui-org/react";
+import { useDateFormatter } from "@/hooks/useDateFormatter";
+import { FormState } from "@/types/Form";
+import { Button, Card, CardBody } from "@nextui-org/react";
 import React from "react";
+
 interface MessageCardProps {
-  message: FormStateDB;
-  onPress: (message: FormStateDB) => void;
+  message: FormState;
+  updateFormState: (message: FormState) => void;
+  onTemplatePress: (message: FormState) => void;
 }
-const MessageCard = ({ message, onPress }: MessageCardProps) => {
+const MessageCard = ({
+  message,
+  updateFormState,
+  onTemplatePress,
+}: MessageCardProps) => {
   const {
     level,
     theme,
@@ -19,11 +26,21 @@ const MessageCard = ({ message, onPress }: MessageCardProps) => {
     numberOfIncident,
   } = message;
   const levelColor = levels.find((l) => l.text === level)?.color;
+  let formatter = useDateFormatter();
+  const convertData = (data: Date) => formatter.format(data);
 
   return (
-    <Card onPress={() => onPress(message)} isPressable>
+    <Card>
       <CardBody>
         <div>
+          <div className="flex mb-3 gap-2 w-full justify-center">
+            <Button variant="ghost" onPress={() => onTemplatePress(message)}>
+              Шаблон
+            </Button>
+            <Button variant="ghost" onPress={() => updateFormState(message)}>
+              Перегляд
+            </Button>
+          </div>
           Рівень впливу:
           <span className={`text-${levelColor} capitalize`}> {level}</span>{" "}
         </div>
@@ -32,13 +49,14 @@ const MessageCard = ({ message, onPress }: MessageCardProps) => {
         {reasons && <div>Причини: {reasons}</div>}
         {activities && <div>Вжиті заходи: {activities}</div>}
         <div>
-          Час початку: <span className="text-success-700"> {startDate}</span>
+          Час початку:{" "}
+          <span className="text-success-700"> {convertData(startDate)}</span>
         </div>
 
         <div>
           {isResolved ? "Час завершення:" : "Очікуванний час завершення:"}{" "}
           <span className="text-success-700">
-            {endDate ? endDate : "уточнюється"}
+            {endDate ? convertData(endDate) : "уточнюється"}
           </span>
         </div>
 

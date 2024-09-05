@@ -28,8 +28,8 @@ model Message {
   isResolved Boolean
   numberOfIncident String @unique
   numberOfMessage String
-  startDate String
-  endDate String?
+  startDate DateTime
+  endDate DateTime?
 }
 
 model Incident {

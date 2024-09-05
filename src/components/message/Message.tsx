@@ -15,8 +15,10 @@ import {
   SaveIcon,
   CopyIcon,
   CopyMdIcon,
+  SendIcon,
 } from "@/components/icons/Icons";
 import { getIncidentByNumber } from "@/db/queries/incidents";
+import { FaTelegram } from "react-icons/fa";
 
 type MessageProps = {
   formState: FormState;
@@ -69,8 +71,8 @@ const Message = ({ formState }: MessageProps) => {
   const onSave = async () => {
     const newMessage = {
       ...formState,
-      startDate: convertData(startDate),
-      endDate: endDate && convertData(endDate),
+      startDate: startDate,
+      endDate: endDate,
     };
     const data = await saveMessage(newMessage);
 
@@ -116,14 +118,6 @@ const Message = ({ formState }: MessageProps) => {
         <div className="text-success-700">{numberOfIncident}</div>
       </div>
       <div className="flex gap-3">
-        <IconButton
-          color="primary"
-          onClick={onCopyText}
-          variant="ghost"
-          className="mt-4"
-        >
-          {isCopied ? <CopyIcon /> : <CopyMdIcon />}
-        </IconButton>
         <ConfirmModal
           color="success"
           triggerIcon={isIncidentExist ? <EditIcon /> : <SaveIcon />}
@@ -133,6 +127,24 @@ const Message = ({ formState }: MessageProps) => {
           type="submit"
           variant="ghost"
         />
+        {/* <ConfirmModal
+          color="success"
+          triggerIcon={<FaTelegram />}
+          className="mt-4 items-center"
+          headerText="Зберегти повідомлення?"
+          onSave={onSave}
+          type="submit"
+          variant="ghost"
+        />
+        <ConfirmModal
+          color="success"
+          triggerIcon={<SendIcon />}
+          className="mt-4 items-center"
+          headerText="Зберегти повідомлення?"
+          onSave={onSave}
+          type="submit"
+          variant="ghost"
+        /> */}
       </div>
       <div className="text-sm text-danger mt-2">
         {isIncidentExist &&
