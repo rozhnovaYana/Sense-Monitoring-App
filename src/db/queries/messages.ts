@@ -1,5 +1,13 @@
 import { db } from "@/db";
 
+export const getMessagesById = (id: number) => {
+  return db.message.findFirst({
+    where: {
+      id,
+    },
+  });
+};
+
 export const getMessagesByTerm = (term?: string) => {
   if (!term || term === "") {
     return db.message.findMany({

@@ -8,5 +8,6 @@ export default async function Messages({
   searchParams: { term: string };
 }) {
   const messages = await getMessagesByTerm(term);
+
   return <MessagesGenerator messages={messages} />;
 }

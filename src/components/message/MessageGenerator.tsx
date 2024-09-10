@@ -11,14 +11,18 @@ import CardsGrid from "@/components/cards/CardsGrid";
 
 import { FormDataInitialState } from "@/data/formdata";
 import { type FormState } from "@/types/Form";
+import { Message as MessageType } from "@prisma/client";
 
 export default function MessagesGenerator({
   messages,
+  message,
 }: {
-  messages: FormState[];
+  messages?: MessageType[];
+  message?: MessageType;
 }) {
-  const [formState, updateFormState] =
-    useState<FormState>(FormDataInitialState);
+  const [formState, updateFormState] = useState<FormState | MessageType>(
+    message || FormDataInitialState
+  );
 
   const mailingFormref = useRef<HTMLFormElement>(null);
 
@@ -51,8 +55,12 @@ export default function MessagesGenerator({
       </div>
       <div>
         <Message formState={formState} />
-        <SearchMessage />
-        <CardsGrid messages={messages} updateFormState={updateFormState} />
+        {!message && (
+          <>
+            <SearchMessage />
+            <CardsGrid messages={messages} updateFormState={updateFormState} />
+          </>
+        )}
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ import { Button, ButtonProps } from "@nextui-org/react";
 
 const IconButton = ({ children, ...props }: ButtonProps) => {
   return (
-    <Button variant="bordered" size="sm" isIconOnly {...props}>
+    <Button variant="bordered" isIconOnly size="sm" {...props}>
       {children}
     </Button>
   );

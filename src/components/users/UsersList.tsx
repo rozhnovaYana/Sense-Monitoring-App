@@ -43,6 +43,7 @@ const UsersList = ({ users }: UsersListProps) => {
                 onSave={deleteUserHandler}
                 type="submit"
                 confirmButtonText="Видалити"
+                title="Видалити"
               />
             )}
             <UserModal

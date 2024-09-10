@@ -99,6 +99,7 @@ const DiscussCard = ({
                 color="danger"
                 variant="light"
                 size="sm"
+                title="Видалити"
               />
               <ButtonUI
                 color={editState ? "success" : "primary"}

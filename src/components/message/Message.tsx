@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import { FormState } from "@/types/Form";
 
 import { toast } from "react-toastify";
@@ -9,16 +9,8 @@ import { saveMessage } from "@/actions/messages";
 
 import { useDateFormatter } from "@/hooks/useDateFormatter";
 import ConfirmModal from "@/components/UI/ConfirmModal";
-import IconButton from "@/components/UI/IconButton";
-import {
-  EditIcon,
-  SaveIcon,
-  CopyIcon,
-  CopyMdIcon,
-  SendIcon,
-} from "@/components/icons/Icons";
-import { getIncidentByNumber } from "@/db/queries/incidents";
-import { FaTelegram } from "react-icons/fa";
+import { EditIcon, SaveIcon } from "@/components/icons/Icons";
+import SocialBlocks from "@/components/social/SocialBlocks";
 
 type MessageProps = {
   formState: FormState;
@@ -36,46 +28,16 @@ const Message = ({ formState }: MessageProps) => {
     reasons,
     activities,
   } = formState;
+  const isActiveIncident = formState?.id;
   const node = useRef<HTMLDivElement>(null);
-  const [isCopied, setCopied] = useState(false);
-  const [isIncidentExist, setIncidentExist] = useState(false);
 
   let formatter = useDateFormatter();
   const convertData = (data: Date) => formatter.format(data);
 
   const timeDifference = endDate && getTimeDifference(startDate, endDate);
 
-  useEffect(() => {
-    if (numberOfIncident?.trim() === "") setIncidentExist(false);
-    (async () => {
-      const inc = await getIncidentByNumber(numberOfIncident);
-      inc ? setIncidentExist(true) : setIncidentExist(false);
-    })();
-  }, [numberOfIncident]);
-
-  const onCopyText = async () => {
-    if (node.current) {
-      setCopied(false);
-      if (navigator.clipboard) {
-        const content = node.current.innerText;
-        await navigator.clipboard.writeText(content);
-        setCopied(true);
-      } else {
-        toast.error(
-          "На жаль, налаштування вашого браузера не дозволяють виконати цю дію."
-        );
-      }
-    }
-  };
-
   const onSave = async () => {
-    const newMessage = {
-      ...formState,
-      startDate: startDate,
-      endDate: endDate,
-    };
-    const data = await saveMessage(newMessage);
-
+    const data = await saveMessage(formState);
     data.isSuccess && !data.error
       ? toast.success("Повідомлення успішно збережено.")
       : toast.error(data.error);
@@ -120,36 +82,18 @@ const Message = ({ formState }: MessageProps) => {
       <div className="flex gap-3">
         <ConfirmModal
           color="success"
-          triggerIcon={isIncidentExist ? <EditIcon /> : <SaveIcon />}
-          className="mt-4 items-center"
+          triggerIcon={isActiveIncident ? <EditIcon /> : <SaveIcon />}
+          className="min-w-0 mt-4 items-center"
           headerText="Зберегти повідомлення?"
           onSave={onSave}
           type="submit"
           variant="ghost"
+          title={isActiveIncident ? "Змінити" : "Зберегти"}
         />
-        {/* <ConfirmModal
-          color="success"
-          triggerIcon={<FaTelegram />}
-          className="mt-4 items-center"
-          headerText="Зберегти повідомлення?"
-          onSave={onSave}
-          type="submit"
-          variant="ghost"
-        />
-        <ConfirmModal
-          color="success"
-          triggerIcon={<SendIcon />}
-          className="mt-4 items-center"
-          headerText="Зберегти повідомлення?"
-          onSave={onSave}
-          type="submit"
-          variant="ghost"
-        /> */}
       </div>
-      <div className="text-sm text-danger mt-2">
-        {isIncidentExist &&
-          "Такий номер інциденту вже існує, тому при повторному збереженні дані будуть перезаписані."}
-      </div>
+      {isActiveIncident && (
+        <SocialBlocks node={node?.current} formState={formState} />
+      )}
     </>
   );
 };

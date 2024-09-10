@@ -4,14 +4,17 @@ export const fetchData = async (url: string, params: {} = {}) => {
   if (!api_domain) {
     return null;
   }
+
   try {
     const data = await fetch(url, { ...params });
+
     if (!data.ok) {
       throw new Error("Something went wrong");
     }
     return data?.json() || data;
   } catch (err) {
-    console.log(err);
-    return null;
+    throw new Error(
+      err instanceof Error ? err.message : "Something went wrong"
+    );
   }
 };

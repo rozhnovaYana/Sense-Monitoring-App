@@ -26,7 +26,7 @@ export default function RootLayout({
       <body className={`blue-dark text-foreground bg-background px-14 ${sans_serif.className}`}>
         <Provider>
           <Navigation />
-          <div className="py-10 h-full">{children}</div>
+          <div className="py-16 h-full">{children}</div>
         </Provider>
         <ToastContainer position="top-right" theme="dark" />
       </body>

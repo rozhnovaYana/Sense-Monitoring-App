@@ -11,6 +11,9 @@
   },
   "dependencies": {
     "@nextui-org/react": "^2.4.1",
+    "@nextui-org/system": "^2.2.5",
+    "@nextui-org/theme": "^2.2.9",
+    "@nextui-org/tooltip": "^2.0.39",
     "@prisma/client": "^5.17.0",
     "@react-stately/data": "^3.11.4",
     "bcrypt": "^5.1.1",

@@ -31,7 +31,6 @@ const CreatePostForm = () => {
         endContent={
           <IconButton
             size="sm"
-            isIconOnly
             className="items-center mt-auto"
             type="submit"
             variant="light"

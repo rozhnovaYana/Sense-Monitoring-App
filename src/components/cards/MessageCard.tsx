@@ -1,20 +1,22 @@
+import React from "react";
+import Link from "next/link";
+import { Button, Card, CardBody, Tooltip } from "@nextui-org/react";
+import { Message } from "@prisma/client";
+
 import { levels } from "@/data/formdata";
 import { useDateFormatter } from "@/hooks/useDateFormatter";
+
+import { TemplateIcon, ViewIcon } from "@/components/icons/Icons";
+
 import { FormState } from "@/types/Form";
-import { Button, Card, CardBody } from "@nextui-org/react";
-import React from "react";
 
 interface MessageCardProps {
-  message: FormState;
-  updateFormState: (message: FormState) => void;
+  message: Message;
   onTemplatePress: (message: FormState) => void;
 }
-const MessageCard = ({
-  message,
-  updateFormState,
-  onTemplatePress,
-}: MessageCardProps) => {
+const MessageCard = ({ message, onTemplatePress }: MessageCardProps) => {
   const {
+    id,
     level,
     theme,
     reasons,
@@ -33,13 +35,31 @@ const MessageCard = ({
     <Card>
       <CardBody>
         <div>
-          <div className="flex mb-3 gap-2 w-full justify-center">
-            <Button variant="ghost" onPress={() => onTemplatePress(message)}>
-              Шаблон
-            </Button>
-            <Button variant="ghost" onPress={() => updateFormState(message)}>
-              Перегляд
-            </Button>
+          <div className="flex mb-3 gap-2 w-full justify-end relative">
+            <Tooltip showArrow content="Шаблон">
+              <Button
+                className="min-w-0"
+                size="sm"
+                variant="bordered"
+                color="primary"
+                onPress={() => onTemplatePress(message)}
+              >
+                <TemplateIcon />
+              </Button>
+            </Tooltip>
+
+            <Tooltip showArrow content="Переглянути">
+              <Button
+                color="success"
+                className="min-w-0"
+                variant="bordered"
+                size="sm"
+              >
+                <Link href={`/incidents/${id}`}>
+                  <ViewIcon />
+                </Link>
+              </Button>
+            </Tooltip>
           </div>
           Рівень впливу:
           <span className={`text-${levelColor} capitalize`}> {level}</span>{" "}

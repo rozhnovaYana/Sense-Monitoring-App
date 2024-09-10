@@ -20,16 +20,19 @@ model User {
 }
 
 model Message {
-  id    Int   @id @default(autoincrement())
+  id    Int   @id @default(autoincrement()) @unique
   level String
   theme String
   activities String
   reasons String
   isResolved Boolean
-  numberOfIncident String @unique
+  numberOfIncident String 
   numberOfMessage String
   startDate DateTime
   endDate DateTime?
+  telegramId Int?
+  webexCSId String?
+  webexAlertId String?
 }
 
 model Incident {

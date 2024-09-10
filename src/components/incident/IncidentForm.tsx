@@ -9,6 +9,7 @@ import CustomInput from "@/components/UI/Input";
 import { FormState } from "@/types/Form";
 
 import { convertISOToZonned, convertZonnedToDate } from "@/utils/dateHelpers";
+import { Message } from "@prisma/client";
 
 const IncidentForm = ({
   formState: {
@@ -24,8 +25,8 @@ const IncidentForm = ({
   },
   updateFormState,
 }: {
-  formState: FormState;
-  updateFormState: Dispatch<SetStateAction<FormState>>;
+  formState: FormState | Message;
+  updateFormState: Dispatch<SetStateAction<FormState | Message>>;
 }) => {
   const onItemUpdate = (
     field: keyof FormState,

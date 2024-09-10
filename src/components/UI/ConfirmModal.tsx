@@ -7,6 +7,7 @@ import {
   Button,
   useDisclosure,
   ButtonProps,
+  Tooltip,
 } from "@nextui-org/react";
 import IconButton from "@/components/UI/IconButton";
 
@@ -15,6 +16,7 @@ interface ConfirmButtonProps extends ButtonProps {
   headerText: string;
   confirmButtonText?: string;
   triggerIcon?: ReactNode;
+  title: string;
 }
 
 const ConfirmModal = ({
@@ -22,15 +24,18 @@ const ConfirmModal = ({
   headerText,
   confirmButtonText,
   triggerIcon,
+  title,
   ...props
 }: ConfirmButtonProps) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
     <>
-      <IconButton onClick={onOpen} isIconOnly {...props}>
-        {triggerIcon}
-      </IconButton>
+      <Tooltip content={title}>
+        <Button onClick={onOpen} className="min-w-0" {...props}>
+          {triggerIcon}
+        </Button>
+      </Tooltip>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (

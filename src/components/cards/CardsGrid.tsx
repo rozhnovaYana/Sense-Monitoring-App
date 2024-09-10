@@ -16,10 +16,11 @@ const CardsGrid = ({
     const updatedMessage: FormState = {
       ...message,
       startDate: FormDataInitialState.startDate,
-      endDate: undefined,
+      endDate: null,
       numberOfIncident: FormDataInitialState.numberOfIncident,
       numberOfMessage: FormDataInitialState.numberOfMessage,
       isResolved: false,
+      id: undefined,
     };
     updateFormState(updatedMessage);
   };
