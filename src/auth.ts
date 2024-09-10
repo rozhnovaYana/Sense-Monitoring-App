@@ -25,15 +25,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
 
         const data =
-          (await fetchData(`${process.env.NEXT_PUBLIC_API_DOMAIN}/auth`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
+          (await fetchData(
+            `${process.env.NEXT_PUBLIC_API_DOMAIN}/auth`,
+            "POST",
+            {
               login: credentials?.name,
-            }),
-          })) || [];
+            }
+          )) || [];
 
         if (!data.user) {
           return {};
