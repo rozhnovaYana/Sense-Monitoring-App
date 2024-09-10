@@ -6,8 +6,10 @@ import PostList from "@/components/post/PostList";
 const MainPage = () => {
   return (
     <div className="flex flex-col gap-2">
-      <CreatePostForm />
-      <PostList />
+      <div className="p-3 bg-black">
+        <CreatePostForm />
+        <PostList />
+      </div>
     </div>
   );
 };

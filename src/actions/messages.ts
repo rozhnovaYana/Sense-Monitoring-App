@@ -65,16 +65,11 @@ export const sendToTelegram = async (
       `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/${
         telegramId ? "editMessageText" : "sendMessage"
       }`,
+      "POST",
       {
-        method: "POST",
-        body: JSON.stringify({
-          chat_id: process.env.TELEGRAM_CHAT_ID,
-          text: formattedMessage,
-          message_id: telegramId,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
+        chat_id: process.env.TELEGRAM_CHAT_ID,
+        text: formattedMessage,
+        message_id: telegramId,
       }
     );
 
@@ -128,17 +123,12 @@ export const deleteFromTelegram = async (
     };
   }
   try {
-    const response = await fetchData(
+    await fetchData(
       `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/deleteMessage`,
+      "POST",
       {
-        method: "POST",
-        body: JSON.stringify({
-          chat_id: process.env.TELEGRAM_CHAT_ID,
-          message_id: telegramId,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
+        chat_id: process.env.TELEGRAM_CHAT_ID,
+        message_id: telegramId,
       }
     );
 

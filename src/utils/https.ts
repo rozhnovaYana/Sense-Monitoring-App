@@ -1,20 +1,23 @@
-const api_domain = process.env.NEXT_PUBLIC_API_DOMAIN;
+import axios from "axios";
 
-export const fetchData = async (url: string, params: {} = {}) => {
-  if (!api_domain) {
-    return null;
-  }
-
+export const fetchData = async (
+  url: string,
+  method: "GET" | "POST",
+  data?: {}
+) => {
   try {
-    const data = await fetch(url, { ...params });
+    const res = await axios({
+      method,
+      url,
+      data,
+    });
 
-    if (!data.ok) {
-      throw new Error("Something went wrong");
-    }
-    return data?.json() || data;
-  } catch (err) {
+    return await res.data;
+  } catch (err: unknown) {
     throw new Error(
-      err instanceof Error ? err.message : "Something went wrong"
+      err instanceof Error
+        ? err.message
+        : "Щось пішло не так, будь ласка, спробуйте пізніше."
     );
   }
 };
