@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import { Button, Card, CardBody, Tooltip } from "@nextui-org/react";
-import { Message } from "@prisma/client";
 
 import { levels } from "@/data/formdata";
 import { useDateFormatter } from "@/hooks/useDateFormatter";
@@ -11,7 +10,7 @@ import { TemplateIcon, ViewIcon } from "@/components/icons/Icons";
 import { FormState } from "@/types/Form";
 
 interface MessageCardProps {
-  message: Message;
+  message: FormState;
   onTemplatePress: (message: FormState) => void;
 }
 const MessageCard = ({ message, onTemplatePress }: MessageCardProps) => {

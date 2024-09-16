@@ -54,7 +54,7 @@ export default function MessagesGenerator({
           )}
       </div>
       <div>
-        <Message formState={formState} />
+        <Message formState={formState} updateFormState={updateFormState} />
         {!message && (
           <>
             <SearchMessage />

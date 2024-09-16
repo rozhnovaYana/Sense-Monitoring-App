@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { toast } from "react-toastify";
 
 import { SocialItem, socialItems } from "@/data/socialdata";
@@ -10,8 +10,13 @@ import { ActionState } from "@/types/ActionState";
 type SocialBlocksProps = {
   formState: FormState;
   node: HTMLDivElement | null;
+  updateFormState: Dispatch<SetStateAction<FormState>>;
 };
-export type DeleteActionState = (data: FormState) => Promise<
+export type DeleteActionState = (
+  data: FormState,
+  key: keyof FormState,
+  variableKey: string
+) => Promise<
   ActionState & {
     formState?: FormState;
   }
@@ -19,28 +24,38 @@ export type DeleteActionState = (data: FormState) => Promise<
 
 export type SaveActionState = (
   data: FormState,
-  formattedMessage: string
+  formattedMessage: string,
+  key: keyof FormState,
+  variableKey: string
 ) => Promise<ActionState & { formState?: FormState }>;
 
-const SocialBlocks = ({ formState, node }: SocialBlocksProps) => {
-  const [state, setState] = useState(formState);
-
-  const sendMessage = async (action: SaveActionState) => {
+const SocialBlocks = ({
+  formState,
+  node,
+  updateFormState,
+}: SocialBlocksProps) => {
+  const sendMessage = async (item: SocialItem) => {
     const formattedMessage = node?.innerText;
+    console.log(formattedMessage)
     if (!formattedMessage) return;
-    const resp = await action(state, formattedMessage);
+    const resp = await item.saveAction(
+      formState,
+      formattedMessage,
+      item.id,
+      item.variableKey
+    );
     if (resp.isSuccess && !resp.error && resp.formState) {
       toast.success("Повідомлення було надіслано");
-      setState(resp.formState);
+      updateFormState(resp.formState);
     } else {
       toast.error(resp.error);
     }
   };
-  const deleteMessage = async (action: DeleteActionState) => {
-    const resp = await action(state);
+  const deleteMessage = async (item: SocialItem) => {
+    const resp = await item.deleteAction(formState, item.id, item.variableKey);
     if (resp.isSuccess && !resp.error && resp.formState) {
       toast.success("Повідомлення було видалено");
-      setState(resp.formState);
+      updateFormState(resp.formState);
     } else {
       toast.error(resp.error);
     }
@@ -49,7 +64,7 @@ const SocialBlocks = ({ formState, node }: SocialBlocksProps) => {
   const newItems: SocialItem[] = [];
   const sendItems = socialItems.reduce((acc: SocialItem[], item, index) => {
     const id = item.id;
-    const itemSended = state?.[id];
+    const itemSended = formState?.[id];
     if (itemSended) {
       acc.push(item);
     } else {
@@ -65,7 +80,7 @@ const SocialBlocks = ({ formState, node }: SocialBlocksProps) => {
         titleText="Надіслати"
         items={newItems}
         action={(item) => {
-          sendMessage(item.saveAction);
+          sendMessage(item);
         }}
       />
       {sendItems && (
@@ -74,7 +89,7 @@ const SocialBlocks = ({ formState, node }: SocialBlocksProps) => {
           titleText="Редагувати"
           items={sendItems}
           action={(item) => {
-            sendMessage(item.saveAction);
+            sendMessage(item);
           }}
         />
       )}
@@ -85,7 +100,7 @@ const SocialBlocks = ({ formState, node }: SocialBlocksProps) => {
           titleText="Видалити"
           items={sendItems}
           action={(item) => {
-            deleteMessage(item.deleteAction);
+            deleteMessage(item);
           }}
         />
       )}

@@ -31,4 +31,8 @@ export const FormDataInitialState: FormState = {
   numberOfIncident: "INC-0000",
   numberOfMessage: "1",
   startDate: convertZonnedToDate(now(getLocalTimeZone())),
+  endDate: null,
+  telegramId: null,
+  webexCSId: null,
+  webexAlertId: null,
 };

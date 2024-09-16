@@ -1,24 +1,24 @@
 import { TelegramIcon, WebexIcon } from "@/components/icons/Icons";
 import { FormState } from "@/types/Form";
-import { deleteFromTelegram, sendToTelegram } from "@/actions/messages";
-import { ActionState } from "@/types/ActionState";
+
 import { ButtonColors } from "@/types/Colors";
+import { deleteFromTelegram, sendToTelegram } from "@/actions/telegram";
+import { deleteFromWebex, sendToWebex } from "@/actions/webex";
+import {
+  DeleteActionState,
+  SaveActionState,
+} from "@/components/social/SocialBlocks";
 
 export type SocialItem = {
   id: keyof FormState;
   icon: () => React.JSX.Element;
-  saveAction: (
-    data: FormState,
-    formattedMessage: string
-  ) => Promise<ActionState>;
-  deleteAction: (data: FormState) => Promise<
-    ActionState & {
-      formState?: FormState;
-    }
-  >;
+  saveAction: SaveActionState;
+  deleteAction: DeleteActionState;
   color: ButtonColors;
   title: string;
+  variableKey: string;
 };
+
 export const socialItems: SocialItem[] = [
   {
     id: "telegramId",
@@ -27,21 +27,24 @@ export const socialItems: SocialItem[] = [
     saveAction: sendToTelegram,
     deleteAction: deleteFromTelegram,
     title: "Telegram",
+    variableKey: "TELEGRAM_CHAT_ID",
   },
   {
     id: "webexCSId",
     icon: WebexIcon,
     color: "warning",
-    saveAction: sendToTelegram,
-    deleteAction: deleteFromTelegram,
+    saveAction: sendToWebex,
+    deleteAction: deleteFromWebex,
     title: "Webex CS",
+    variableKey: "WEBEX_CS_ROOM_ID",
   },
   {
     id: "webexAlertId",
     icon: WebexIcon,
     color: "secondary",
-    saveAction: sendToTelegram,
-    deleteAction: deleteFromTelegram,
+    saveAction: sendToWebex,
+    deleteAction: deleteFromWebex,
     title: "Webex Alert",
+    variableKey: "WEBEX_ALERT_ROOM_ID",
   },
 ];

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { Dispatch, SetStateAction, useRef, useState } from "react";
 import { FormState } from "@/types/Form";
 
 import { toast } from "react-toastify";
@@ -14,9 +14,10 @@ import SocialBlocks from "@/components/social/SocialBlocks";
 
 type MessageProps = {
   formState: FormState;
+  updateFormState: Dispatch<SetStateAction<FormState>>;
 };
 
-const Message = ({ formState }: MessageProps) => {
+const Message = ({ formState, updateFormState }: MessageProps) => {
   const {
     level,
     theme,
@@ -29,7 +30,7 @@ const Message = ({ formState }: MessageProps) => {
     activities,
   } = formState;
   const isActiveIncident = formState?.id;
-  const node = useRef<HTMLDivElement>(null);
+  const [node, setNode] = useState<HTMLDivElement | null>(null);
 
   let formatter = useDateFormatter();
   const convertData = (data: Date) => formatter.format(data);
@@ -45,7 +46,7 @@ const Message = ({ formState }: MessageProps) => {
 
   return (
     <>
-      <div ref={node} style={{ whiteSpace: "pre-wrap" }}>
+      <div ref={setNode} style={{ whiteSpace: "pre-wrap" }}>
         <div>
           Рівень впливу:
           <span
@@ -92,7 +93,11 @@ const Message = ({ formState }: MessageProps) => {
         />
       </div>
       {isActiveIncident && (
-        <SocialBlocks node={node?.current} formState={formState} />
+        <SocialBlocks
+          node={node}
+          formState={formState}
+          updateFormState={updateFormState}
+        />
       )}
     </>
   );

@@ -9,9 +9,10 @@ const CardsGrid = ({
   messages,
   updateFormState,
 }: {
-  messages: FormState[];
+  messages?: FormState[];
   updateFormState: Dispatch<SetStateAction<FormState>>;
 }) => {
+  if (!messages) return null;
   const onTemplatePress = (message: FormState) => {
     const updatedMessage: FormState = {
       ...message,
@@ -35,7 +36,6 @@ const CardsGrid = ({
           key={index}
           message={message}
           onTemplatePress={onTemplatePress}
-          updateFormState={updateFormState}
         />
       ))}
     </ScrollShadow>
