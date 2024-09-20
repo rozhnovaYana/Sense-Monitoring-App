@@ -26,7 +26,7 @@ export type SaveActionState = (
   data: FormState,
   formattedMessage: string,
   key: keyof FormState,
-  variableKey: string
+  variableKey?: string
 ) => Promise<ActionState & { formState?: FormState }>;
 
 const SocialBlocks = ({
@@ -36,13 +36,13 @@ const SocialBlocks = ({
 }: SocialBlocksProps) => {
   const sendMessage = async (item: SocialItem) => {
     const formattedMessage = node?.innerText;
-    console.log(formattedMessage)
+    console.log(formattedMessage);
     if (!formattedMessage) return;
     const resp = await item.saveAction(
       formState,
       formattedMessage,
       item.id,
-      item.variableKey
+      item?.variableKey
     );
     if (resp.isSuccess && !resp.error && resp.formState) {
       toast.success("Повідомлення було надіслано");
@@ -52,6 +52,7 @@ const SocialBlocks = ({
     }
   };
   const deleteMessage = async (item: SocialItem) => {
+    if (!item.deleteAction || !item.variableKey) return;
     const resp = await item.deleteAction(formState, item.id, item.variableKey);
     if (resp.isSuccess && !resp.error && resp.formState) {
       toast.success("Повідомлення було видалено");
@@ -65,9 +66,10 @@ const SocialBlocks = ({
   const sendItems = socialItems.reduce((acc: SocialItem[], item, index) => {
     const id = item.id;
     const itemSended = formState?.[id];
-    if (itemSended) {
+    if (itemSended && item.deleteAction) {
       acc.push(item);
-    } else {
+    }
+    if (!itemSended) {
       newItems.push(item);
     }
     return acc;

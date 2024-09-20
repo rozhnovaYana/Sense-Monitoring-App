@@ -16,12 +16,12 @@ export const sendToTelegram = async (
   data: FormState,
   formattedMessage: string,
   key: keyof FormState = "telegramId",
-  variableKey: string
+  variableKey?: string
 ): Promise<ActionState & { formState?: FormState }> => {
   const session = await auth();
   const userId = session?.user?.id;
   // check if user exists and formDate is filled
-  if (!userId) {
+  if (!userId || !variableKey) {
     return {
       error: msgs.access_denied,
     };

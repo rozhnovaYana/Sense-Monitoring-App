@@ -33,6 +33,7 @@ model Message {
   telegramId Int?
   webexCSId String?
   webexAlertId String?
+  mailId String?
 }
 
 model Incident {

@@ -11,6 +11,7 @@ import {
   IoMdCopy,
   IoIosArrowBack,
   IoIosEye,
+  IoIosMail,
 } from "react-icons/io";
 
 export const SendIcon = () => <IoIosSend />;
@@ -34,3 +35,5 @@ export const WebexIcon = () => <SiWebex />;
 export const TemplateIcon = () => <VscNotebookTemplate />;
 
 export const ViewIcon = () => <IoIosEye />;
+
+export const MailIcon = () => <IoIosMail />;
