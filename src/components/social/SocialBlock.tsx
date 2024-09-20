@@ -32,7 +32,7 @@ const SocialBlock = ({
               title={item.title}
               color={item.color}
               triggerIcon={<Icon />}
-              headerText="Зберегти повідомлення?"
+              headerText={`Надіслати повідомлення до ${item.title}?`}
               onSave={() => action(item)}
               type="submit"
               variant="ghost"
