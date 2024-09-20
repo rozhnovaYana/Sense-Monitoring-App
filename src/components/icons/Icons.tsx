@@ -1,6 +1,7 @@
 import { FaTelegram } from "react-icons/fa";
 import { SiWebex } from "react-icons/si";
 import { VscNotebookTemplate } from "react-icons/vsc";
+import { BsCCircle } from "react-icons/bs";
 
 import {
   IoIosSend,
@@ -37,3 +38,5 @@ export const TemplateIcon = () => <VscNotebookTemplate />;
 export const ViewIcon = () => <IoIosEye />;
 
 export const MailIcon = () => <IoIosMail />;
+
+export const CIcon = () => <BsCCircle />;
